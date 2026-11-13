@@ -78,7 +78,8 @@ Each prior is our probability, before seeing data, that the hypothesis is true.
 
 Any change after this commit is listed here with its date and reason.
 
-- *(none yet)*
+- **2026-11-14, before any judging. Added an all-sources-retrieved sensitivity analysis.** It re-estimates every outcome on the notes whose cited sources were *all* retrieved as text. Reason: a note can cite a source that cannot be retrieved (for example an X post) alongside one that can. A claim backed only by the missing source would then be judged `NOT_IN_SOURCE` against the retrieved one, inflating `UNSUPPORTED`. Because missing sources are more common in human notes, this analysis is reported next to every primary estimate, not only in the appendix.
+- **2026-11-14, procedure detail.** Claims are produced once, by the primary model at effort `medium`. Every judge then scores the same claims, at effort `high`.
 
 ## 9. Stage 2 amendment (before the main judging run)
 
