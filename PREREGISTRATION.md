@@ -85,6 +85,7 @@ Any change after this commit is listed here with its date and reason.
   - `MISSING`: no verdict was returned.
   - **Primary analysis:** both are excluded from a note's checkable claims.
   - **Sensitivity analysis:** `UNVERIFIED` is counted as unsupported.
+- **2026-11-14, before any judging. H2a estimand made precise.** "Across groups (weighted)" now means the weighted average of the *within-group* differences, UNSUPPORTED(CRNH) − UNSUPPORTED(CRH). Each group is weighted by its CRH + CRNH population, and the test permutes status within groups. Reason: a dry run on synthetic data showed that pooling CRNH notes and CRH notes separately confounds the gap with group composition (`cw` has 12,668 CRH notes but only 78 CRNH notes).
 
 ## 9. Stage 2 amendment (before the main judging run)
 
