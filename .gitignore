@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# Public dump files are large and not ours to re-host; keep only their checksums.
+data/raw/**/*.zip
+data/interim/
+
+# Personal sprint plan (competition strategy), not part of the research repo.
+PLAN.md

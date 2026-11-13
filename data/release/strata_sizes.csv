@@ -1,0 +1,10 @@
+stratum,group,status,population,sampled,weight
+cw|CRH,cw,CRH,12668,110,115.16363636363636
+cw|CRNH,cw,CRNH,78,78,1.0
+cw|NMR,cw,NMR,90364,80,1129.55
+ai_other|CRH,ai_other,CRH,1488,110,13.527272727272727
+ai_other|CRNH,ai_other,CRNH,302,78,3.871794871794872
+ai_other|NMR,ai_other,NMR,13866,80,173.325
+human|CRH,human,CRH,8705,110,79.13636363636364
+human|CRNH,human,CRNH,3523,78,45.166666666666664
+human|NMR,human,NMR,99281,80,1241.0125
