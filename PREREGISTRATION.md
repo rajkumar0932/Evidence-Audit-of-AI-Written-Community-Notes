@@ -80,6 +80,11 @@ Any change after this commit is listed here with its date and reason.
 
 - **2026-11-14, before any judging. Added an all-sources-retrieved sensitivity analysis.** It re-estimates every outcome on the notes whose cited sources were *all* retrieved as text. Reason: a note can cite a source that cannot be retrieved (for example an X post) alongside one that can. A claim backed only by the missing source would then be judged `NOT_IN_SOURCE` against the retrieved one, inflating `UNSUPPORTED`. Because missing sources are more common in human notes, this analysis is reported next to every primary estimate, not only in the appendix.
 - **2026-11-14, procedure detail.** Claims are produced once, by the primary model at effort `medium`. Every judge then scores the same claims, at effort `high`.
+- **2026-11-14, before any judging. How `UNVERIFIED` and `MISSING` verdicts count.** This was left unspecified in stage 1.
+  - `UNVERIFIED`: support was claimed but no verifiable quote was given, even after the re-ask.
+  - `MISSING`: no verdict was returned.
+  - **Primary analysis:** both are excluded from a note's checkable claims.
+  - **Sensitivity analysis:** `UNVERIFIED` is counted as unsupported.
 
 ## 9. Stage 2 amendment (before the main judging run)
 

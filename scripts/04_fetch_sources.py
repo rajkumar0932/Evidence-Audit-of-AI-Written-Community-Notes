@@ -71,19 +71,49 @@ def log(msg: str) -> None:
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
 
 
-def get(client: httpx.Client, url: str, limiter: Limiter, ua: str, tries: int = 5, **kw) -> httpx.Response | None:
+class Resp:
+    """Fully-read response. httpx read timeouts are per chunk, so a server that trickles bytes
+    (one live page took 6,592 s) never times out; every download therefore has a wall-clock
+    deadline and a size cap."""
+
+    def __init__(self, status_code: int, headers, content: bytes, url):
+        self.status_code, self.headers, self.content, self.url = status_code, headers, content, url
+
+    @property
+    def text(self) -> str:
+        m = re.search(r"charset=([\w-]+)", self.headers.get("content-type", ""), re.I)
+        try:
+            return self.content.decode(m.group(1) if m else "utf-8", errors="replace")
+        except LookupError:
+            return self.content.decode("utf-8", errors="replace")
+
+    def json(self):
+        return json.loads(self.text)
+
+
+class TooSlow(Exception):
+    pass
+
+
+def get(client: httpx.Client, url: str, limiter: Limiter, ua: str, tries: int = 5, max_secs: float = 90,
+        max_bytes: int = 20_000_000, **kw) -> Resp | None:
     for attempt in range(tries):
         limiter.wait()
+        t0 = time.monotonic()
         try:
-            r = client.get(url, headers={"User-Agent": ua}, **kw)
-        except httpx.HTTPError:
+            with client.stream("GET", url, headers={"User-Agent": ua}, **kw) as r:
+                if r.status_code in (429, 503, 509):
+                    limiter.slow_down()
+                    time.sleep(min(30 * 2**attempt, 300))
+                    continue
+                buf = bytearray()
+                for chunk in r.iter_bytes():
+                    buf += chunk
+                    if len(buf) > max_bytes or time.monotonic() - t0 > max_secs:
+                        raise TooSlow(f"{len(buf)} bytes after {time.monotonic() - t0:.0f}s")
+                return Resp(r.status_code, r.headers, bytes(buf), r.url)
+        except (httpx.HTTPError, TooSlow):
             time.sleep(5 * (attempt + 1))
-            continue
-        if r.status_code in (429, 503, 509):
-            limiter.slow_down()
-            time.sleep(min(30 * 2**attempt, 300))
-            continue
-        return r
     return None
 
 
@@ -208,12 +238,12 @@ WAYBACK_CITED = re.compile(r"^https?://web\.archive\.org/web/(\d{4,14})[a-z_]*/(
 SNAP_IN_URL = re.compile(r"/web/(\d{14})")
 
 
-def archive_get(client: httpx.Client, snap: str, original: str) -> httpx.Response | None:
+def archive_get(client: httpx.Client, snap: str, original: str) -> Resp | None:
     return get(client, f"https://web.archive.org/web/{snap}id_/{original}", ARCHIVE, RESEARCH_UA, tries=3,
                timeout=httpx.Timeout(20, read=60), follow_redirects=True)
 
 
-def orig_encoding(r: httpx.Response) -> str:
+def orig_encoding(r: Resp) -> str:
     return r.headers.get("x-archive-orig-content-encoding", "") or r.headers.get("content-encoding", "")
 
 

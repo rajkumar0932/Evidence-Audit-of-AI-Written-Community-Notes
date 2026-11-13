@@ -1,3 +1,4 @@
 # Store release data and checksums byte-for-byte so recorded SHA-256 hashes stay valid on every OS.
 data/release/*.csv -text
 data/raw/**/SHA256SUMS -text
+prompts/*.md -text

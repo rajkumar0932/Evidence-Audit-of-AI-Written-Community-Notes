@@ -76,7 +76,7 @@ JUDGE_SCHEMA = {
 
 
 def prompt(name: str) -> tuple[str, str]:
-    text = (PROMPTS / f"{name}.md").read_text(encoding="utf-8")
+    text = (PROMPTS / f"{name}.md").read_text(encoding="utf-8").replace(chr(13) + chr(10), chr(10))
     return text, hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
