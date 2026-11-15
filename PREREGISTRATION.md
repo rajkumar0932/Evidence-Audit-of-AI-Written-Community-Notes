@@ -87,7 +87,26 @@ Any change after this commit is listed here with its date and reason.
   - **Sensitivity analysis:** `UNVERIFIED` is counted as unsupported.
 - **2026-11-14, before any judging. H2a estimand made precise.** "Across groups (weighted)" now means the weighted average of the *within-group* differences, UNSUPPORTED(CRNH) − UNSUPPORTED(CRH). Each group is weighted by its CRH + CRNH population, and the test permutes status within groups. Reason: a dry run on synthetic data showed that pooling CRNH notes and CRH notes separately confounds the gap with group composition (`cw` has 12,668 CRH notes but only 78 CRNH notes).
 
-## 9. Stage 2 amendment (before the main judging run)
+## 9. Stage 2 amendment (15 Nov 2026, ~21:50 IST, before any main-sample note was judged)
 
-- Prompt files and SHA-256: *TBD*
-- Pilot observations and prompt changes: *TBD*
+**Model and runtime (deviation from §5.4).** We use `claude-haiku-5-5` as the primary model for both claim decomposition and verdicts. We do not use `claude-opus-5-5`.
+
+- **How it runs:** through Claude Code's headless mode (`claude -p`) on the author's existing subscription, not through the paid Messages API.
+- **Settings:** tools, MCP servers, skills and settings are disabled, and calls run from an empty working directory. Structured output uses `--json-schema`. Effort is `medium` for decomposition and `high` for verdicts.
+- **Reason:** the sprint had no budget for paid API usage. The full audit costs about $2 at Haiku API-equivalent prices, against about $40–80 with Opus.
+- **What does not change:** the prompts, schemas, quote verification, re-ask rule and outcomes.
+- **Validation carries more weight:** judge accuracy is established by the blind human validation (§7), which matters more with a smaller model.
+- **Second judge:** run on a subset if subscription usage allows.
+
+**Frozen prompts:**
+
+- `prompts/decompose.md`: SHA-256 `24c9df9a6b355d5331b2f55d4d2f1eeb0ead87d3285a14f73c6c80fbd888acf1`
+- `prompts/judge.md`: SHA-256 `08d3b5a250b6d231ed4003691ba21ece4be29ca127e18dfcef46ef420f4fcecb`
+
+**Pilot (40 notes from 1–9 Nov; never analysed).** Three rounds of prompts:
+
+- **v0 to v1:**
+  - The judge counted a source that merely repeats the corrected claim (a parody post) as contradicting the note. Added judge rule 4.
+  - The decomposer attributed every listed finding to every listed piece of evidence. Added decomposition rule 3.
+- **v1 to v2:** `CONTRADICTED` was over-used (6 of 154 verdicts, about half of them wrong). The causes were dropped qualifiers ("not announced", "just introduced") and a translation slip in an Arabic note. Added decomposition rule 4 (keep qualifiers; keep the note's language) and a qualifier clause in the `CONTRADICTED` definition.
+- **v2, frozen:** 139 verdicts. 62 `SUPPORTED`, 25 `PARTIAL`, 50 `NOT_IN_SOURCE`, 2 `CONTRADICTED`. 89 of 89 quotes verified verbatim. One residual error was observed: a claim that lost its "in this case" qualifier.

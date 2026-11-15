@@ -6,9 +6,11 @@ Rules
 
 1. Extract every distinct factual assertion the note makes. Rewrite each as one standalone sentence. Resolve pronouns and references ("he", "the video", "this account") using only the note's own words. Keep every number, date, name, place and quotation exactly as the note gives it.
 2. One fact per claim. Split compound sentences: "X happened in 2019 and killed 12 people" becomes two claims.
-3. Do not add facts, background or interpretation that the note does not state, and do not judge whether a claim is true.
-4. Skip URLs, calls to action ("See:", "Read more"), and statements about Community Notes itself.
-5. Give each claim exactly one type. Use the first type in this list that applies:
+3. State findings as claims about the world ("The aircraft encountered icing"), not as claims about which evidence shows them. When the note lists several pieces of evidence together with several findings, do not attribute every finding to every piece of evidence. Only write an attribution claim when the note ties a specific finding to a specific source or person.
+4. Keep the note's qualifiers of time, scope, certainty and officialness ("recently", "in this case", "no official statement", "not announced", "reports say") inside each claim; a claim stripped of its qualifier says something different. Write each claim in the same language as the note; do not translate.
+5. Do not add facts, background or interpretation that the note does not state, and do not judge whether a claim is true.
+6. Skip URLs, calls to action ("See:", "Read more"), and statements about Community Notes itself.
+7. Give each claim exactly one type. Use the first type in this list that applies:
    - `about_post`: the claim only describes what the post itself says, shows, implies or leaves out ("The post claims…", "This post is misleading", "The post omits…"). These cannot be checked against outside sources.
    - `number_date`: the claim's truth depends on a specific number, quantity, percentage, date, time or duration.
    - `attribution_quote`: the claim says that a specific person or organisation said, reported, announced, ruled or found something.
