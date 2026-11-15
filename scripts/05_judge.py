@@ -84,11 +84,25 @@ def slug(model: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", model.lower()).strip("-")
 
 
+def load_dotenv() -> None:
+    """Read KEY=value lines from the git-ignored .env at the repo root into the environment."""
+    import os
+    path = ROOT / ".env"
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8-sig").splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
 def client() -> anthropic.Anthropic:
+    load_dotenv()
     try:
         return anthropic.Anthropic()
     except anthropic.AnthropicError as e:
-        sys.exit(f"No Claude API credentials: {e}\nSet ANTHROPIC_API_KEY (console.anthropic.com -> API keys).")
+        sys.exit(f"No Claude API credentials: {e}\nPut ANTHROPIC_API_KEY=sk-ant-... in {ROOT / '.env'}")
 
 
 # ------------------------------------------------------------------ inputs

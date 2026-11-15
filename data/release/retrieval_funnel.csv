@@ -1,0 +1,5 @@
+group,notes,cited_urls,x_urls,nontext_urls,fetchable_urls,retrieved_text,retrieved_pinned,share_urls_retrieved,share_urls_pinned,share_notes_any_text,share_notes_all_retrieved,share_notes_all_pinned,method_wayback_before,method_wayback_after,method_wiki_rev,method_cited_archive,method_live
+all,804,1548,232,76,1240,1123,954,0.7255,0.6163,0.7799,0.5784,0.444,790,59,109,3,279
+ai_other,268,427,45,19,363,334,285,0.7822,0.6674,0.8097,0.709,0.5597,247,13,25,1,77
+cw,268,750,108,35,607,562,474,0.7493,0.632,0.9216,0.4925,0.3321,395,37,41,1,133
+human,268,371,79,22,270,227,195,0.6119,0.5256,0.6082,0.5336,0.4403,148,9,43,1,69
