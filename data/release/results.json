@@ -1,0 +1,445 @@
+{
+  "model": "claude-haiku-5-5",
+  "primary": {
+    "cells": {
+      "ai_other|CRH": {
+        "notes": 110,
+        "unsupported": {
+          "n": 91,
+          "est": 0.5604,
+          "lo": 0.4615,
+          "hi": 0.6593
+        },
+        "contradicted": {
+          "n": 91,
+          "est": 0.0989,
+          "lo": 0.044,
+          "hi": 0.1648
+        },
+        "claim_support_rate": {
+          "n": 91,
+          "est": 0.513,
+          "lo": 0.4486,
+          "hi": 0.5776
+        },
+        "checkable_share": 0.8273,
+        "all_sources_retrieved_share": 0.7182,
+        "median_claims": 5.0,
+        "about_post_claims": 54
+      },
+      "ai_other|CRNH": {
+        "notes": 78,
+        "unsupported": {
+          "n": 62,
+          "est": 0.6613,
+          "lo": 0.5484,
+          "hi": 0.7742
+        },
+        "contradicted": {
+          "n": 62,
+          "est": 0.1452,
+          "lo": 0.0645,
+          "hi": 0.2419
+        },
+        "claim_support_rate": {
+          "n": 62,
+          "est": 0.4783,
+          "lo": 0.3994,
+          "hi": 0.5594
+        },
+        "checkable_share": 0.7949,
+        "all_sources_retrieved_share": 0.7436,
+        "median_claims": 5.0,
+        "about_post_claims": 31
+      },
+      "ai_other|NMR": {
+        "notes": 80,
+        "unsupported": {
+          "n": 64,
+          "est": 0.6719,
+          "lo": 0.5469,
+          "hi": 0.7812
+        },
+        "contradicted": {
+          "n": 64,
+          "est": 0.125,
+          "lo": 0.0469,
+          "hi": 0.2031
+        },
+        "claim_support_rate": {
+          "n": 64,
+          "est": 0.4746,
+          "lo": 0.4038,
+          "hi": 0.5456
+        },
+        "checkable_share": 0.8,
+        "all_sources_retrieved_share": 0.6625,
+        "median_claims": 5.0,
+        "about_post_claims": 25
+      },
+      "cw|CRH": {
+        "notes": 110,
+        "unsupported": {
+          "n": 99,
+          "est": 0.6465,
+          "lo": 0.5455,
+          "hi": 0.7374
+        },
+        "contradicted": {
+          "n": 99,
+          "est": 0.0909,
+          "lo": 0.0404,
+          "hi": 0.1515
+        },
+        "claim_support_rate": {
+          "n": 99,
+          "est": 0.4712,
+          "lo": 0.4052,
+          "hi": 0.5374
+        },
+        "checkable_share": 0.9,
+        "all_sources_retrieved_share": 0.4455,
+        "median_claims": 5.0,
+        "about_post_claims": 55
+      },
+      "cw|CRNH": {
+        "notes": 78,
+        "unsupported": {
+          "n": 73,
+          "est": 0.6986,
+          "lo": 0.589,
+          "hi": 0.8082
+        },
+        "contradicted": {
+          "n": 73,
+          "est": 0.0685,
+          "lo": 0.0137,
+          "hi": 0.137
+        },
+        "claim_support_rate": {
+          "n": 73,
+          "est": 0.4629,
+          "lo": 0.3917,
+          "hi": 0.533
+        },
+        "checkable_share": 0.9359,
+        "all_sources_retrieved_share": 0.5513,
+        "median_claims": 5.0,
+        "about_post_claims": 31
+      },
+      "cw|NMR": {
+        "notes": 80,
+        "unsupported": {
+          "n": 75,
+          "est": 0.7333,
+          "lo": 0.6267,
+          "hi": 0.8267
+        },
+        "contradicted": {
+          "n": 75,
+          "est": 0.08,
+          "lo": 0.0267,
+          "hi": 0.1467
+        },
+        "claim_support_rate": {
+          "n": 75,
+          "est": 0.3446,
+          "lo": 0.2725,
+          "hi": 0.4171
+        },
+        "checkable_share": 0.9375,
+        "all_sources_retrieved_share": 0.5,
+        "median_claims": 5.0,
+        "about_post_claims": 38
+      },
+      "human|CRH": {
+        "notes": 110,
+        "unsupported": {
+          "n": 63,
+          "est": 0.746,
+          "lo": 0.6349,
+          "hi": 0.8571
+        },
+        "contradicted": {
+          "n": 63,
+          "est": 0.0476,
+          "lo": 0.0,
+          "hi": 0.1111
+        },
+        "claim_support_rate": {
+          "n": 63,
+          "est": 0.2579,
+          "lo": 0.1766,
+          "hi": 0.3452
+        },
+        "checkable_share": 0.5727,
+        "all_sources_retrieved_share": 0.5182,
+        "median_claims": 3.0,
+        "about_post_claims": 59
+      },
+      "human|CRNH": {
+        "notes": 78,
+        "unsupported": {
+          "n": 46,
+          "est": 0.7609,
+          "lo": 0.6304,
+          "hi": 0.8696
+        },
+        "contradicted": {
+          "n": 46,
+          "est": 0.087,
+          "lo": 0.0217,
+          "hi": 0.1739
+        },
+        "claim_support_rate": {
+          "n": 46,
+          "est": 0.2486,
+          "lo": 0.1621,
+          "hi": 0.3408
+        },
+        "checkable_share": 0.5897,
+        "all_sources_retrieved_share": 0.5769,
+        "median_claims": 3.0,
+        "about_post_claims": 31
+      },
+      "human|NMR": {
+        "notes": 80,
+        "unsupported": {
+          "n": 48,
+          "est": 0.8125,
+          "lo": 0.6875,
+          "hi": 0.9167
+        },
+        "contradicted": {
+          "n": 48,
+          "est": 0.1042,
+          "lo": 0.0208,
+          "hi": 0.1875
+        },
+        "claim_support_rate": {
+          "n": 48,
+          "est": 0.2292,
+          "lo": 0.1562,
+          "hi": 0.3066
+        },
+        "checkable_share": 0.6,
+        "all_sources_retrieved_share": 0.5125,
+        "median_claims": 3.0,
+        "about_post_claims": 27
+      }
+    },
+    "H1_cw_minus_human_CRH": {
+      "est": -0.0996,
+      "lo": -0.241,
+      "hi": 0.0433,
+      "p": 0.2179,
+      "n_a": 99,
+      "n_b": 63,
+      "alternative": "two-sided"
+    },
+    "H2a_CRNH_minus_CRH_within_group": {
+      "est": 0.0384,
+      "lo": -0.0617,
+      "hi": 0.1376,
+      "p_one_sided": 0.2289,
+      "groups": [
+        "ai_other",
+        "cw",
+        "human"
+      ]
+    },
+    "H2b_interaction": {
+      "n": 621,
+      "term": "C(status, Treatment('CRH'))[T.CRNH]:C(group, Treatment('human'))[T.cw]",
+      "coef": 0.118,
+      "lo": -0.9824,
+      "hi": 1.2184,
+      "p": 0.83354,
+      "pseudo_r2": 0.0219
+    },
+    "H3_auroc_irrelevant_sources_tag": {
+      "n": 567,
+      "n_unsupported": 387,
+      "auroc": 0.5291,
+      "lo": 0.4808,
+      "hi": 0.5774,
+      "p_auroc_ge_threshold": 0.0005
+    },
+    "H3_secondary": {
+      "helpfulGoodSources": {
+        "n": 567,
+        "n_unsupported": 387,
+        "auroc": 0.4764,
+        "lo": 0.4287,
+        "hi": 0.5261,
+        "p_auroc_ge_threshold": 0.0005
+      },
+      "notHelpfulSourcesMissingOrUnreliable": {
+        "n": 567,
+        "n_unsupported": 387,
+        "auroc": 0.5176,
+        "lo": 0.4695,
+        "hi": 0.5661,
+        "p_auroc_ge_threshold": 0.0005
+      },
+      "notHelpfulIncorrect": {
+        "n": 567,
+        "n_unsupported": 387,
+        "auroc": 0.5352,
+        "lo": 0.4875,
+        "hi": 0.5822,
+        "p_auroc_ge_threshold": 0.0005
+      }
+    },
+    "H3_CRH_only": {
+      "n": 253,
+      "n_unsupported": 162,
+      "auroc": 0.5206,
+      "lo": 0.4488,
+      "hi": 0.59,
+      "p_auroc_ge_threshold": 0.0005
+    },
+    "holm": {
+      "H3": 0.0015,
+      "H1": 0.4358,
+      "H2a": 0.4358
+    }
+  },
+  "D1_checkability": {
+    "ai_other": {
+      "checkable": 0.8033,
+      "all_sources_retrieved": 0.671,
+      "all_retrieved_pinned": 0.6618
+    },
+    "cw": {
+      "checkable": 0.9314,
+      "all_sources_retrieved": 0.4912,
+      "all_retrieved_pinned": 0.6507
+    },
+    "human": {
+      "checkable": 0.5968,
+      "all_sources_retrieved": 0.515,
+      "all_retrieved_pinned": 0.5093
+    }
+  },
+  "sensitivity": {
+    "partial_as_unsupported": {
+      "H1": {
+        "est": -0.0346,
+        "lo": -0.1429,
+        "hi": 0.0794,
+        "p": 0.6498,
+        "n_a": 99,
+        "n_b": 63,
+        "alternative": "two-sided"
+      },
+      "H2a": {
+        "est": 0.0539,
+        "lo": -0.0159,
+        "hi": 0.1235,
+        "p_one_sided": 0.0779,
+        "groups": [
+          "ai_other",
+          "cw",
+          "human"
+        ]
+      }
+    },
+    "unverified_as_unsupported": {
+      "H1": {
+        "est": -0.0794,
+        "lo": -0.2222,
+        "hi": 0.062,
+        "p": 0.3046,
+        "n_a": 99,
+        "n_b": 63,
+        "alternative": "two-sided"
+      },
+      "H2a": {
+        "est": 0.0298,
+        "lo": -0.0713,
+        "hi": 0.1277,
+        "p_one_sided": 0.2865,
+        "groups": [
+          "ai_other",
+          "cw",
+          "human"
+        ]
+      }
+    },
+    "all_sources_retrieved": {
+      "H1": {
+        "est": -0.1916,
+        "lo": -0.3715,
+        "hi": -0.0045,
+        "p": 0.0624,
+        "n_a": 49,
+        "n_b": 54,
+        "alternative": "two-sided"
+      },
+      "H2a": {
+        "est": 0.0627,
+        "lo": -0.062,
+        "hi": 0.1882,
+        "p_one_sided": 0.1642,
+        "groups": [
+          "ai_other",
+          "cw",
+          "human"
+        ]
+      }
+    },
+    "pinned_sources_only": {
+      "H1": {
+        "est": -0.1272,
+        "lo": -0.2844,
+        "hi": 0.0317,
+        "p": 0.1569,
+        "n_a": 72,
+        "n_b": 50,
+        "alternative": "two-sided"
+      },
+      "H2a": {
+        "est": -0.0044,
+        "lo": -0.1212,
+        "hi": 0.1138,
+        "p_one_sided": 0.5346,
+        "groups": [
+          "ai_other",
+          "cw",
+          "human"
+        ]
+      }
+    },
+    "excluding_wikipedia_citers": {
+      "H1": {
+        "est": -0.1186,
+        "lo": -0.2727,
+        "hi": 0.0378,
+        "p": 0.1833,
+        "n_a": 83,
+        "n_b": 52,
+        "alternative": "two-sided"
+      },
+      "H2a": {
+        "est": 0.0538,
+        "lo": -0.053,
+        "hi": 0.1598,
+        "p_one_sided": 0.1765,
+        "groups": [
+          "ai_other",
+          "cw",
+          "human"
+        ]
+      }
+    },
+    "leave_one_cw_account_out_cw_CRH_unsupported": {
+      "3DB2C88F21": 0.6538,
+      "A0A7C54DAD": 0.631,
+      "A9CD635B30": 0.6386,
+      "B3E2C89FD1": 0.6667,
+      "D6D5E740F6": 0.6588,
+      "F14ECB41C2": 0.6296
+    }
+  }
+}

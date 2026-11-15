@@ -20,7 +20,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
-from sklearn.metrics import roc_curve  # noqa: E402
+from sklearn.metrics import roc_auc_score, roc_curve  # noqa: E402
 
 from common import INTERIM, RELEASE, ROOT  # noqa: E402
 
@@ -121,13 +121,14 @@ def fig_roc() -> None:
         if dg.unsupported.nunique() < 2:
             continue
         fpr, tpr, _ = roc_curve(dg.unsupported.astype(int), dg[col])
-        ax.plot(fpr, tpr, color=COLOR[g], lw=2, label=NAMES[g], zorder=2)
+        auc = roc_auc_score(dg.unsupported.astype(int), dg[col])
+        ax.plot(fpr, tpr, color=COLOR[g], lw=2, label=f"{NAMES[g]} (AUROC {auc:.2f})", zorder=2)
     ax.set_xlabel("false positive rate")
     ax.set_ylabel("true positive rate")
     ax.grid(axis="both")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
-    ax.legend(loc="lower right", fontsize=7.5)
+    ax.legend(loc="upper left", fontsize=7.5)
     save(fig, "fig_roc")
 
 
@@ -152,8 +153,10 @@ def fig_claim_types() -> None:
     cats = share.sum(axis=1).sort_values(ascending=False).index.tolist()
     values = {g: share[g].to_dict() if g in share else {} for g in GROUPS}
     fig, ax = plt.subplots(figsize=(6.2, 2.9))
-    grouped_bars(ax, [c.replace("_", "/") for c in cats],
-                 {g: {c.replace("_", "/"): v for c, v in values[g].items()} for g in GROUPS})
+    nice = {"number_date": "number\nor date", "attribution_quote": "attribution\nor quote",
+            "characterisation": "characterisation", "event": "event", "causal": "causal"}
+    grouped_bars(ax, [nice.get(c, c) for c in cats],
+                 {g: {nice.get(c, c): v for c, v in values[g].items()} for g in GROUPS})
     ax.set_ylabel("share of a group's\nunsupported claims")
     ax.legend(loc="upper right", ncol=3, fontsize=8, bbox_to_anchor=(1, 1.13))
     save(fig, "fig_claim_types")
