@@ -89,6 +89,13 @@ Any change after this commit is listed here with its date and reason.
 
 - **2026-11-15, 22:35 IST, before any human label was collected. Human validation reduced from 150 to 90 claims** (30 per group: 11 `SUPPORTED`, 6 `PARTIAL`, 8 `NOT_IN_SOURCE`, 5 `CONTRADICTED`, by the judge's label). Reason: the time left in the sprint. The selection seed, the stratified design and the weighting are unchanged.
 
+- **2026-11-15, ~22:55 IST. The blind human validation could not be completed and was replaced by model-based validation.** The sole author could not complete the human labelling in the time available, and no human labels were collected. Judge validity is instead assessed in three ways (`scripts/12_judge_agreement.py`):
+  1. **Cross-family agreement:** agreement with an independent second judge from another model family, `gemini-3.5-flash-lite`, on all shared claims.
+  2. **Stronger reference judge:** agreement with `claude-opus-5-5`, run with the same frozen prompt, on the notes behind the 90 stratified validation claims, including weighted precision and recall of UNSUPPORTED.
+  3. **Headline robustness:** H1 and H3 recomputed with each judge's verdicts.
+
+  This change was made *after* the primary judging run. The report presents it as a limitation: model-based validation cannot rule out errors that models share, so human validation remains future work.
+
 ## 9. Stage 2 amendment (15 Nov 2026, ~21:50 IST, before any main-sample note was judged)
 
 **Model and runtime (deviation from §5.4).** We use `claude-haiku-5-5` as the primary model for both claim decomposition and verdicts. We do not use `claude-opus-5-5`.

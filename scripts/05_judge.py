@@ -350,7 +350,7 @@ def submit(stage: str, split: str, model: str, effort: str) -> None:
             reqs.append(Request(custom_id=f"dec-{n.noteId}",
                                 params=MessageCreateParamsNonStreaming(**decompose_params(n.summary))))
     else:
-        claims = {json.loads(l)["noteId"]: json.loads(l) for l in claims_path(split).read_text(encoding="utf-8").splitlines()}
+        claims = {json.loads(l)["noteId"]: json.loads(l) for l in claims_path(split).read_text(encoding="utf-8").split("\n")}
         by_note = load_sources()
         for n in notes.itertuples():
             in_scope = [cl for cl in claims[n.noteId]["claims"] if cl["type"] != "about_post"]
@@ -398,7 +398,7 @@ def collect(stage: str, split: str, model: str) -> None:
         claims_path(split).write_text("\n".join(lines), encoding="utf-8")
         print(f"claims for {len(lines)} notes -> {claims_path(split).name}; failed {len(failed)}")
     else:
-        claims = {json.loads(l)["noteId"]: json.loads(l) for l in claims_path(split).read_text(encoding="utf-8").splitlines()}
+        claims = {json.loads(l)["noteId"]: json.loads(l) for l in claims_path(split).read_text(encoding="utf-8").split("\n")}
         by_note = load_sources()
         recs, reask = [], 0
         for cid, r in results.items():

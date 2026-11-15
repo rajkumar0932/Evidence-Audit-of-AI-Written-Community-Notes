@@ -39,7 +39,7 @@ def slug(model: str) -> str:
 def jsonl(path: Path) -> dict:
     if not path.exists():
         return {}
-    return {(r := json.loads(l))["noteId"]: r for l in path.read_text(encoding="utf-8").splitlines() if l.strip()}
+    return {(r := json.loads(l))["noteId"]: r for l in path.read_text(encoding="utf-8").split("\n") if l.strip()}
 
 
 # ------------------------------------------------------------------ per-note outcomes

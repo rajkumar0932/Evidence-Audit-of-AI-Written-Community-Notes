@@ -118,7 +118,7 @@ def main() -> None:
         labelled = set(pd.read_csv(key_csv, dtype={"noteId": str}).noteId)
         sel = pd.concat([notes[notes.noteId.isin(labelled)], sel]).drop_duplicates("noteId")
     claims = {json.loads(l)["noteId"]: json.loads(l)["claims"]
-              for l in J.claims_path("main").read_text(encoding="utf-8").splitlines()}
+              for l in J.claims_path("main").read_text(encoding="utf-8").split("\n")}
     by_note = J.load_sources()
     phash = J.prompt("judge")[1][:8]
     todo = [n for n in sel.itertuples() if n.noteId in claims]

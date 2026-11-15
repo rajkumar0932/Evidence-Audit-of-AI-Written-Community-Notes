@@ -138,10 +138,10 @@ def fig_claim_types() -> None:
     if not (cp.exists() and vp.exists()):
         return
     claims = {(r := json.loads(l))["noteId"]: {c["id"]: c["type"] for c in r["claims"]}
-              for l in cp.read_text(encoding="utf-8").splitlines() if l.strip()}
+              for l in cp.read_text(encoding="utf-8").split("\n") if l.strip()}
     group = pd.read_csv(RELEASE / "sample_ids.csv", dtype={"noteId": str}).set_index("noteId").group
     rows = []
-    for l in vp.read_text(encoding="utf-8").splitlines():
+    for l in vp.read_text(encoding="utf-8").split("\n"):
         r = json.loads(l)
         for v in r["verdicts"]:
             if v["label"] in ("NOT_IN_SOURCE", "CONTRADICTED"):

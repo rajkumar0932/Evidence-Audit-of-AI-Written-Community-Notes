@@ -20,10 +20,10 @@ def main() -> None:
     slug = "".join(ch if ch.isalnum() else "-" for ch in a.model.lower())
     runs = INTERIM / "judge_runs"
     claims = {(r := json.loads(l))["noteId"]: r["claims"]
-              for l in (runs / "claims_main.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()}
+              for l in (runs / "claims_main.jsonl").read_text(encoding="utf-8").split("\n") if l.strip()}
     strata = pd.read_csv(RELEASE / "sample_ids.csv", dtype={"noteId": str}).set_index("noteId").stratum
     rows = []
-    for l in (runs / f"verdicts_main_{slug}.jsonl").read_text(encoding="utf-8").splitlines():
+    for l in (runs / f"verdicts_main_{slug}.jsonl").read_text(encoding="utf-8").split("\n"):
         r = json.loads(l)
         verdicts = {v["claim_id"]: v for v in r.get("verdicts", [])}
         src = {s["id"]: s for s in r.get("sources", [])}

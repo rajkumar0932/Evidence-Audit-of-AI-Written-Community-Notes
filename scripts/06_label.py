@@ -37,7 +37,7 @@ UNSUP = {"NOT_IN_SOURCE", "CONTRADICTED"}
 def verdict_rows(model: str) -> pd.DataFrame:
     path = judge.RUNS / f"verdicts_main_{judge.slug(model)}.jsonl"
     rows = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in path.read_text(encoding="utf-8").split("\n"):
         rec = json.loads(line)
         for v in rec["verdicts"]:
             rows.append({"noteId": rec["noteId"], "claim_id": v["claim_id"], "judge_label": v["label"]})
@@ -73,7 +73,7 @@ def make(n_per_group: int, model: str) -> None:
     items["item_id"] = [f"A{i:03d}" for i in range(1, len(items) + 1)]
 
     claims = {json.loads(l)["noteId"]: json.loads(l) for l in
-              (judge.RUNS / "claims_main.jsonl").read_text(encoding="utf-8").splitlines()}
+              (judge.RUNS / "claims_main.jsonl").read_text(encoding="utf-8").split("\n")}
     notes = judge.load_notes("main").set_index("noteId")
     by_note = judge.load_sources()
     payload = []

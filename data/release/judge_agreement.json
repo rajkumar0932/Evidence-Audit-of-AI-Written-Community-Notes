@@ -1,0 +1,115 @@
+{
+  "haiku_vs_gemini": {
+    "all": {
+      "n_claims": 1024,
+      "agreement_4class": 0.756,
+      "kappa_4class": 0.61,
+      "agreement_unsupported": 0.879,
+      "kappa_unsupported": 0.748
+    },
+    "ai_authored": {
+      "n_claims": 816,
+      "agreement_4class": 0.757,
+      "kappa_4class": 0.596,
+      "agreement_unsupported": 0.89,
+      "kappa_unsupported": 0.758
+    },
+    "human_authored": {
+      "n_claims": 208,
+      "agreement_4class": 0.75,
+      "kappa_4class": 0.595,
+      "agreement_unsupported": 0.837,
+      "kappa_unsupported": 0.673
+    },
+    "confusion_rows_primary_cols_other": {
+      "CONTRADICTED": {
+        "CONTRADICTED": 11,
+        "NOT_IN_SOURCE": 8,
+        "PARTIAL": 1,
+        "SUPPORTED": 4
+      },
+      "NOT_IN_SOURCE": {
+        "CONTRADICTED": 2,
+        "NOT_IN_SOURCE": 318,
+        "PARTIAL": 1,
+        "SUPPORTED": 8
+      },
+      "PARTIAL": {
+        "CONTRADICTED": 1,
+        "NOT_IN_SOURCE": 79,
+        "PARTIAL": 31,
+        "SUPPORTED": 112
+      },
+      "SUPPORTED": {
+        "CONTRADICTED": 2,
+        "NOT_IN_SOURCE": 28,
+        "PARTIAL": 4,
+        "SUPPORTED": 414
+      }
+    },
+    "note_level_unsupported": {
+      "n_notes": 251,
+      "agreement": 0.869,
+      "kappa": 0.693,
+      "rate_primary": 0.637,
+      "rate_other": 0.761
+    }
+  },
+  "haiku_vs_opus": {
+    "n": 0
+  },
+  "gemini_vs_opus": {
+    "n": 0
+  },
+  "haiku_vs_opus_on_90_validation_claims": {
+    "n": 0
+  },
+  "headline_by_judge": {
+    "haiku": {
+      "CRH_unsupported_by_group": {
+        "ai_other": {
+          "mean": 0.5604395604395604,
+          "size": 91
+        },
+        "cw": {
+          "mean": 0.6464646464646465,
+          "size": 99
+        },
+        "human": {
+          "mean": 0.746031746031746,
+          "size": 63
+        }
+      },
+      "H1_cw_minus_human": {
+        "est": -0.1,
+        "lo": -0.237,
+        "hi": 0.045
+      },
+      "H3_auroc": 0.529,
+      "H3_n": 567
+    },
+    "gemini": {
+      "CRH_unsupported_by_group": {
+        "ai_other": {
+          "mean": 0.7415730337078652,
+          "size": 89
+        },
+        "cw": {
+          "mean": 0.7373737373737373,
+          "size": 99
+        },
+        "human": {
+          "mean": 0.8253968253968254,
+          "size": 63
+        }
+      },
+      "H1_cw_minus_human": {
+        "est": -0.088,
+        "lo": -0.214,
+        "hi": 0.04
+      },
+      "H3_auroc": 0.531,
+      "H3_n": 251
+    }
+  }
+}

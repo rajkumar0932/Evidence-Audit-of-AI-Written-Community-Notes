@@ -26,6 +26,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+import pandas as pd
+
 from common import ROOT
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -195,8 +197,11 @@ def cmd_pilot(limit: int, model: str, effort: str, workers: int) -> None:
     print(f"report: {J.RUNS / f'pilot_report_{J.slug(model)}.md'}")
 
 
-def cmd_run(stage: str, split: str, model: str, effort: str, workers: int) -> None:
+def cmd_run(stage: str, split: str, model: str, effort: str, workers: int, only: str = "") -> None:
     notes = J.load_notes(split)
+    if only:  # restrict to the noteIds listed in a CSV (e.g. the validation key)
+        keep = set(pd.read_csv(only, dtype={"noteId": str}).noteId)
+        notes = notes[notes.noteId.isin(keep)]
     if stage == "decompose":
         recs = run_parallel(list(notes.itertuples()), lambda n: decompose(n, model), workers, "decompose")
         done = [r for r in recs if not r.get("error")]
@@ -205,7 +210,7 @@ def cmd_run(stage: str, split: str, model: str, effort: str, workers: int) -> No
         print(f"claims for {len(done)}/{len(notes)} notes -> {J.claims_path(split).name}")
     else:
         claims = {json.loads(l)["noteId"]: json.loads(l)["claims"]
-                  for l in J.claims_path(split).read_text(encoding="utf-8").splitlines()}
+                  for l in J.claims_path(split).read_text(encoding="utf-8").split("\n")}
         by_note = J.load_sources()
         todo = [n for n in notes.itertuples() if n.noteId in claims]
         recs = run_parallel(todo, lambda n: judge(n, claims[n.noteId], by_note, model, effort), workers, "judge")
@@ -226,12 +231,13 @@ def main() -> None:
     ap.add_argument("--effort", default="high")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--only", default="", help="CSV with a noteId column: judge only these notes")
     a = ap.parse_args()
     print(f"claude binary: {BIN}\nmodel: {a.model}, judge effort: {a.effort}", flush=True)
     if a.cmd == "pilot":
         cmd_pilot(a.limit, a.model, a.effort, a.workers)
     else:
-        cmd_run(a.stage, a.split, a.model, a.effort, a.workers)
+        cmd_run(a.stage, a.split, a.model, a.effort, a.workers, a.only)
 
 
 if __name__ == "__main__":
