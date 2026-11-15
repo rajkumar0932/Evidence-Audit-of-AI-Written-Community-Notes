@@ -87,6 +87,8 @@ Any change after this commit is listed here with its date and reason.
   - **Sensitivity analysis:** `UNVERIFIED` is counted as unsupported.
 - **2026-11-14, before any judging. H2a estimand made precise.** "Across groups (weighted)" now means the weighted average of the *within-group* differences, UNSUPPORTED(CRNH) − UNSUPPORTED(CRH). Each group is weighted by its CRH + CRNH population, and the test permutes status within groups. Reason: a dry run on synthetic data showed that pooling CRNH notes and CRH notes separately confounds the gap with group composition (`cw` has 12,668 CRH notes but only 78 CRNH notes).
 
+- **2026-11-15, 22:35 IST, before any human label was collected. Human validation reduced from 150 to 90 claims** (30 per group: 11 `SUPPORTED`, 6 `PARTIAL`, 8 `NOT_IN_SOURCE`, 5 `CONTRADICTED`, by the judge's label). Reason: the time left in the sprint. The selection seed, the stratified design and the weighting are unchanged.
+
 ## 9. Stage 2 amendment (15 Nov 2026, ~21:50 IST, before any main-sample note was judged)
 
 **Model and runtime (deviation from §5.4).** We use `claude-haiku-5-5` as the primary model for both claim decomposition and verdicts. We do not use `claude-opus-5-5`.
