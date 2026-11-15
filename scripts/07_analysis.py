@@ -233,7 +233,7 @@ def analyse(df: pd.DataFrame, sizes: pd.DataFrame, rng) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="claude-opus-5-5")
+    ap.add_argument("--model", default="claude-haiku-5-5")
     ap.add_argument("--second", default="")
     ap.add_argument("--runs-dir", default=str(INTERIM / "judge_runs"))
     ap.add_argument("--release-dir", default=str(RELEASE))

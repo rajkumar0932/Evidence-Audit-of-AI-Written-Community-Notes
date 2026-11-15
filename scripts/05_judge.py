@@ -39,7 +39,7 @@ RUNS = INTERIM / "judge_runs"
 RUNS.mkdir(parents=True, exist_ok=True)
 STATE = RUNS / "batches.json"
 
-PRIMARY = "claude-opus-5-5"
+PRIMARY = "claude-haiku-5-5"  # stage-2 amendment: run via scripts/05b_judge_cli.py
 PRICE = {"claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0), "claude-haiku-5-5": (0.10, 0.50)}
 CLAIM_TYPES = ["about_post", "number_date", "attribution_quote", "causal", "characterisation", "event"]
 LABELS = ["SUPPORTED", "PARTIAL", "NOT_IN_SOURCE", "CONTRADICTED"]

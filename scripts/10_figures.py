@@ -133,7 +133,7 @@ def fig_roc() -> None:
 
 def fig_claim_types() -> None:
     runs = INTERIM / "judge_runs"
-    cp, vp = runs / "claims_main.jsonl", runs / "verdicts_main_claude-opus-5-5.jsonl"
+    cp, vp = runs / "claims_main.jsonl", runs / "verdicts_main_claude-haiku-5-5.jsonl"
     if not (cp.exists() and vp.exists()):
         return
     claims = {(r := json.loads(l))["noteId"]: {c["id"]: c["type"] for c in r["claims"]}

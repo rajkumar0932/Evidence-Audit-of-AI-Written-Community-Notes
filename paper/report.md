@@ -88,11 +88,13 @@ Each cited URL is classified as an X post, other X page, non-text media (video o
 
 ### 3.4 Claim decomposition
 
-An LLM (`claude-opus-5-5`, effort medium; prompt in Appendix B) splits each note into small, standalone claims, keeping numbers, names and quotes verbatim. Each claim is typed as number/date, attribution/quote, causal, characterisation, event, or about-the-post. Claims that only describe the post itself are out of scope, because they cannot be checked against outside sources.
+An LLM (`claude-haiku-5-5`, effort medium; prompt in Appendix B) splits each note into small, standalone claims, keeping numbers, names and quotes verbatim. Each claim is typed as number/date, attribution/quote, causal, characterisation, event, or about-the-post. Claims that only describe the post itself are out of scope, because they cannot be checked against outside sources.
 
 ### 3.5 Quote-anchored verdicts
 
-For each note, a judge (`claude-opus-5-5`, effort high) receives only the in-scope claims and the retrieved source texts. It never sees the note's author, group or status. For each claim it returns one of:
+For each note, a judge (`claude-haiku-5-5`, effort high) receives only the in-scope claims and the retrieved source texts.
+
+We deliberately use a small, inexpensive model, run through Claude Code's headless mode with tools, plugins and settings disabled. The whole 804-note audit costs about $2 at API prices, so a platform or researcher could repeat it every month. Its accuracy is established empirically by the blind human audit (§3.6), not assumed. Prompts were developed on a disjoint 40-note pilot over three rounds and frozen before the main run (Appendix C). It never sees the note's author, group or status. For each claim it returns one of:
 
 - `SUPPORTED`: a source states or directly entails the claim, including every specific detail;
 - `PARTIAL`: the core is supported but a detail is missing or differs;
