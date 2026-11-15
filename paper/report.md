@@ -1,7 +1,7 @@
 # Do AI Fact-Checks Say What Their Sources Say? An Independent Evidence Audit of AI-Written Community Notes
 
 **Raj Gupta** · [affiliation] · AI x Epistemics Research Sprint (Apart Research), 13–16 Nov 2026
-Code and data: [repo URL]
+Code and data: https://github.com/rajkumar0932/Evidence-Audit-of-AI-Written-Community-Notes
 
 *Draft. Bracketed **[TBD]** items are filled in from `data/release/results.json` once the judging run completes.*
 
