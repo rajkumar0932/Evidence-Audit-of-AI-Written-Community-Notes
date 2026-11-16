@@ -5,9 +5,9 @@ Code and data: https://github.com/rajkumar0932/Evidence-Audit-of-AI-Written-Comm
 
 ## Abstract
 
-AI accounts wrote 61% of the Community Notes on X that reached "Helpful" status in Aug–Oct 2026, mostly six accounts run by X itself. Published evaluations of these notes, X's own included, measure rater approval; none checks whether a note's cited sources support what it says.
+AI accounts wrote 61% of the Community Notes on X that reached "Helpful" status in Aug–Oct 2026, mostly six X-run accounts. Published evaluations of these notes, X's own included, measure rater approval; none checks whether a note's cited sources support what it says.
 
-We audit a pre-registered, stratified sample of 804 notes by X's Community Writer, other AI writers and humans, across all three rating statuses. We pin each source to its version at the time of writing and split notes into 3,545 claims. Every "supported" verdict must quote a passage that code verifies; 99% did. An independent judge from another model family agrees on 88% of claims (κ = 0.75).
+We audit a pre-registered, stratified sample of 804 notes by X's Community Writer, other AI writers and humans, across all three rating statuses. We pin each source to its version at the time of writing and split notes into 3,545 claims. Every "supported" verdict must quote a passage that code verifies; 99% did. An independent judge from another model family agrees on 88% of claims (κ = 0.75), and a blind human spot-check confirms 91% of the judge's "unsupported" verdicts.
 
 The platform's signals do not track evidence:
 
@@ -251,7 +251,21 @@ By label, the reference confirms:
 
 The absolute rates in §4.2 should therefore be read as a range across judges. The AI–human gap (§4.2) and the null rater signal (§4.4) hold under both judges that scored the full Helpful sample (Claude Haiku and Gemini).
 
-**Human spot-check.** One author blindly labelled 30 of the validation claims (10 per group) with a single question: does the source support at least the main point? The author could confidently decide only **7 of the 30**, marking 23 "can't tell". On those 7 (5 supported, 2 not supported), the primary judge agreed on all 7, Opus on 6, and Gemini on all 3 it had scored. This is too few claims to estimate accuracy, and we report it only for completeness.
+**Human spot-check.** One author blindly labelled 30 of the validation claims (10 per group) with a single question: does the source support at least the main point? To save time, the labelling view showed the passages around the claim's key words by default, with the full text one click away.
+
+- **Two passes.** A first pass decided 7 claims. A second pass, using the full text, decided 29 (9 supported, 20 not supported, 1 can't tell). The 7 first-pass labels were unchanged.
+- **Agreement on the 29 decided claims:**
+
+| Judge | Agreement with the author | κ | Weighted precision of "unsupported" | Weighted recall |
+|---|---|---|---|---|
+| Primary (Claude Haiku) | 69% | 0.40 | **0.91** | 0.63 |
+| Claude Opus | 63% | 0.32 | 0.90 | 0.59 |
+| Gemini (14 claims) | 64% | 0.31 | 0.81 | 0.74 |
+
+- **Where they disagree.** The author was stricter than every judge: 69% of claims not supported. When the primary judge said "unsupported", the author agreed in 12 of 13 cases. 8 of the 9 disagreements are claims the judge called `SUPPORTED` or `PARTIAL` and the author did not.
+- **All 8 of those judge quotes are verified verbatim in the source, and 7 of the 8 were visible in the default labelling view.** These disagreements therefore reflect a stricter standard on the author's part, labelling error, or judge leniency. A check this small cannot separate those explanations.
+
+The spot-check gives no sign that the judge over-flags unsupported claims. Relative to this labeller, judge-based unsupported rates are conservative. With 29 claims and one labeller, it is not a substitute for full validation.
 
 ### 4.6 What unsupported claims look like
 
@@ -282,7 +296,7 @@ This matters most because the AI writers are tuned to predict and maximise rater
 
 **Limitations** are detailed in Appendix A. The most important are:
 
-- **Judge error.** Two other judges agree substantially with the primary judge (§4.5), but the human check is limited to a 7-claim spot-check.
+- **Judge error.** Two other judges agree substantially with the primary judge, and a 29-claim human spot-check confirms 91% of its "unsupported" verdicts (§4.5). Human–judge agreement overall is only moderate (κ 0.40).
 - **A strict note-level outcome.** One unsupported claim out of about 4.4 makes a note unsupported; the claim-level rates are the gentler measure.
 - **Characterisations a source cannot establish.** Some characterisations ("this account is a parody") may be supported by the account itself rather than by any page we could retrieve.
 
@@ -311,7 +325,9 @@ Evaluations that stop at "rated helpful" therefore miss the property that matter
 **Limitations.**
 
 - **Observational design.** We measure association, not why notes are unsupported.
-- **Minimal human validation.** The pre-registered 90-claim blind human validation could not be completed. A later 30-claim spot-check yielded only 7 decided labels; the judge agreed on all 7, which is too few to estimate accuracy. Judge reliability therefore rests mainly on agreement with a cross-family judge and a stronger reference model (§4.5), which cannot rule out errors that models share. Quote verification removes hallucinated support but not mistaken "not in source" verdicts. Human labelling of the released 90-claim validation set is the most important next step.
+- **Limited human validation.** The pre-registered 90-claim blind human validation could not be completed. It was replaced by agreement with a cross-family judge and a stronger reference model, which cannot rule out errors that models share, and by a single-author spot-check of 30 claims (29 decided).
+  - The spot-check shows moderate agreement (κ 0.40) and high precision of the judge's "unsupported" (0.91).
+  - Its labels may be noisy: they were made quickly, by one person, from a key-word view. Quote verification removes hallucinated support but not mistaken "not in source" verdicts. Human labelling of the released 90-claim validation set is the most important next step.
 - **Missing sources.** A claim may be supported by a source we could not retrieve (an X post, a video). Hence the all-sources-retrieved analysis, in which the AI–human gap widens.
 - **Time pinning.** 59 sources come from snapshots after the note was written and 279 are live copies; these may differ from what the writer saw.
 - **Deleted notes** are invisible in the public data, and X's writer deletes drafts predicted to fail.
@@ -339,6 +355,6 @@ The frozen prompts are `prompts/decompose.md` (SHA-256 `24c9df9a…`) and `promp
 | 15 Nov, 21:48 | Stage 2 committed before the main run: prompts frozen after three pilot rounds; switch from `claude-opus-5-5` to `claude-haiku-5-5` via Claude Code headless mode, for cost reasons |
 | 15 Nov, 22:35 | Human validation reduced from 150 to 90 claims (time), before any label was collected |
 | 15 Nov, ~22:55 | Human validation not completed; replaced by a cross-family judge (Gemini) and a stronger reference judge (Claude Opus 5.5), after the primary run (§3.5) |
-| 16 Nov, ~09:00 | Quick blind human spot-check of 30 claims (binary question) registered before any label; 7 decided labels (§4.5) |
+| 16 Nov, ~09:00 | Quick blind human spot-check of 30 claims (binary question) registered before any label; two labelling passes, 29 decided labels in the second (§4.5) |
 
 All entries are in the repository's git history.

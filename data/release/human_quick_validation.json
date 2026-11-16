@@ -1,26 +1,26 @@
 {
   "n_labelled": 30,
-  "n_usable": 7,
-  "human_not_supported_share": 0.286,
+  "n_usable": 29,
+  "human_not_supported_share": 0.69,
   "claude_haiku_primary": {
-    "n": 7,
-    "agreement": 1.0,
-    "kappa": 1.0,
-    "precision_unsupported_w": 1.0,
-    "recall_unsupported_w": 1.0
+    "n": 29,
+    "agreement": 0.69,
+    "kappa": 0.403,
+    "precision_unsupported_w": 0.91,
+    "recall_unsupported_w": 0.632
   },
   "claude_opus_reference": {
-    "n": 7,
-    "agreement": 0.857,
-    "kappa": 0.588,
-    "precision_unsupported_w": 1.0,
-    "recall_unsupported_w": 0.3
+    "n": 27,
+    "agreement": 0.63,
+    "kappa": 0.318,
+    "precision_unsupported_w": 0.898,
+    "recall_unsupported_w": 0.594
   },
   "gemini_second": {
-    "n": 3,
-    "agreement": 1.0,
-    "kappa": 1.0,
-    "precision_unsupported_w": 1.0,
-    "recall_unsupported_w": 1.0
+    "n": 14,
+    "agreement": 0.643,
+    "kappa": 0.314,
+    "precision_unsupported_w": 0.807,
+    "recall_unsupported_w": 0.736
   }
 }
