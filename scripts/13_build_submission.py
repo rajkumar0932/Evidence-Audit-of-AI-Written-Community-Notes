@@ -260,6 +260,7 @@ def main() -> None:
         is_caption = bool(texts) and "".join(texts).lstrip().startswith(("Figure ", "Table "))
         if has_image:
             par.alignment = 1
+            par.paragraph_format.keep_with_next = True  # keep figures with their captions
         is_list = bool(el.xpath('./w:pPr/w:numPr'))
         par.paragraph_format.space_after = Pt(2 if is_list else 4 if is_caption else 6)
         for r in el.iter(qn("w:r")):

@@ -1,0 +1,114 @@
+{
+  "claim_support_CRH": {
+    "ai_other": {
+      "notes": 91,
+      "mean_per_note": 0.513,
+      "pooled_share": 0.5107
+    },
+    "cw": {
+      "notes": 99,
+      "mean_per_note": 0.4712,
+      "pooled_share": 0.4832
+    },
+    "human": {
+      "notes": 63,
+      "mean_per_note": 0.2579,
+      "pooled_share": 0.2201
+    }
+  },
+  "claim_support_CRH_test_cw_minus_human": {
+    "diff": 0.2133,
+    "lo": 0.1027,
+    "hi": 0.3204,
+    "p_perm": 0.0004,
+    "n_a": 99,
+    "n_b": 63
+  },
+  "claim_support_CRH_test_ai_other_minus_human": {
+    "diff": 0.2551,
+    "lo": 0.1464,
+    "hi": 0.3617,
+    "p_perm": 0.0001,
+    "n_a": 91,
+    "n_b": 63
+  },
+  "claim_support_CRH_ai_other_ci": [
+    0.4497,
+    0.5777
+  ],
+  "claims_per_note": {
+    "ai_other": {
+      "claims": 5.09,
+      "in_scope": 4.68,
+      "judged": 3.88
+    },
+    "cw": {
+      "claims": 4.66,
+      "in_scope": 4.19,
+      "judged": 3.91
+    },
+    "human": {
+      "claims": 3.48,
+      "in_scope": 3.04,
+      "judged": 2.01
+    }
+  },
+  "claims_per_judged_note_by_group": {
+    "ai_other": 4.79,
+    "cw": 4.25,
+    "human": 3.43
+  },
+  "claim_accounting": {
+    "claims": 3545,
+    "about_post": 351,
+    "in_scope_in_unjudged_notes": 551,
+    "verdicts": 2643
+  },
+  "H3_n": 567,
+  "H3_notes_with_zero_tag": 219,
+  "H3_spearman_tag_vs_unsupported_claim_share": {
+    "rho": 0.054,
+    "p": 0.202
+  },
+  "H3_auroc_majority_unsupported": 0.533,
+  "H3_auroc_excluding_zero_tag_notes": 0.507,
+  "ceiling_gemini_predicts_haiku": {
+    "notes": 251,
+    "auroc": 0.895,
+    "kappa_binary": 0.693
+  },
+  "power": {
+    "se_points": 7.3,
+    "detectable_gap_80pct_points": 20.3
+  },
+  "checkability_weighted": {
+    "any_text": 0.763,
+    "all_retrieved": 0.516,
+    "unweighted_all_retrieved": 0.578,
+    "notes_without_any_text_source": 177
+  },
+  "retrieval_by_route": {
+    "fetchable": 1240,
+    "retrieved": 1123,
+    "failed": 117,
+    "retrieved_by_method": {
+      "wayback_before": 790,
+      "live": 169,
+      "wiki_rev": 102,
+      "wayback_after": 59,
+      "cited_archive": 3
+    },
+    "strictly_before_note": 895
+  },
+  "snapshot_age_days_before_note": {
+    "n": 892,
+    "median": 29.6,
+    "p75": 152.7,
+    "p90": 384.5,
+    "within_1_day": 0.216
+  },
+  "snapshot_days_after_note": {
+    "n": 59,
+    "median": 0.4
+  }
+}

@@ -68,6 +68,16 @@ def main():
         for j, h in a.get("headline_by_judge", {}).items():
             print(f"  headline under {j:<7} H1 {h['H1_cw_minus_human']}  H3 AUROC {h['H3_auroc']}")
 
+    if (R / "review_checks.json").exists():
+        c = json.loads((R / "review_checks.json").read_text(encoding="utf-8"))
+        print("== Review checks (exploratory) ==")
+        print(f"  claim-level support, CRH, cw - human: {c['claim_support_CRH_test_cw_minus_human']}")
+        print(f"  claim-level support, CRH, other AI - human: {c['claim_support_CRH_test_ai_other_minus_human']}")
+        print(f"  H3 ceiling (Gemini predicts primary labels): {c['ceiling_gemini_predicts_haiku']}")
+        print(f"  H3 zero-tag notes: {c['H3_notes_with_zero_tag']} of {c['H3_n']}; AUROC excluding them: {c['H3_auroc_excluding_zero_tag_notes']}")
+        print(f"  power: {c['power']} | weighted checkability: {c['checkability_weighted']}")
+        print(f"  claims: {c['claim_accounting']} | retrieval: {c['retrieval_by_route']}")
+
     if (R / "judge_validation.json").exists():
         v = json.loads((R / "judge_validation.json").read_text(encoding="utf-8"))
         print("== Judge vs blind human labels ==")

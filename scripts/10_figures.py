@@ -128,7 +128,7 @@ def fig_roc() -> None:
     ax.grid(axis="both")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
-    ax.legend(loc="upper left", fontsize=7.5)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.2), fontsize=7.5, frameon=False)
     save(fig, "fig_roc")
 
 

@@ -5,13 +5,13 @@ AI now writes most of the Community Notes that X shows its users. This repositor
 
 Everything here was written during the Apart Research **AI x Epistemics Research Sprint** (13–16 Nov 2026). No code or data predates the sprint. The study was **pre-registered** before any evidence was retrieved (`PREREGISTRATION.md`; the git history shows the order of work).
 
-## Findings (804 notes; 3,545 claims; Aug–Oct 2026)
+## Findings (804 notes, Aug–Oct 2026)
 
-- **Platform signals are blind to evidence.** Raters' "sources do not support note" tag detects unsupported notes at chance level (AUROC 0.53, 95% CI 0.48–0.58). Helpful and Not Helpful notes are unsupported at similar rates.
-- **AI notes are better grounded than human notes.** On Helpful notes, 47% of claims by X's Community Writer and 51% by other AI writers are supported by their own sources, against 26% for human writers.
-- **Unsupported claims are nevertheless the norm.** 56–81% of checkable notes in every group contain at least one claim their sources do not establish.
-- **Much of the evidence cannot be checked.** Only 58% of notes have all their cited sources retrievable as text.
-- **The findings do not depend on the judge.** An independent judge from another model family (Gemini) agrees with the primary judge (Claude) on 88% of claims (κ 0.75) and reproduces the findings.
+- **Rater signals do not track evidence.** Raters' "sources do not support note" tag detects unsupported notes no better than chance (AUROC 0.53, 95% CI 0.48–0.58), although a second judge predicts the same labels well (AUROC 0.90). Helpful and Not Helpful notes did not differ detectably in support.
+- **AI notes are better supported at claim level (exploratory).** On Helpful notes, 47–51% of AI writers' claims are supported by their own sources, against 26% for human writers (difference 21–26 points, p < .001, resampling notes). The pre-registered note-level comparison was not significant.
+- **Unsupported claims are common under every judge**, though the level depends on the judge. "Unsupported" means not established by the cited source, not false.
+- **Much of the evidence cannot be checked.** Weighted to the platform, only 52% of notes have every cited source retrievable as text.
+- **Validation.** A cross-family judge (Gemini) agrees on 76% of claims across four labels (kappa 0.61); a 29-claim human spot-check agrees on 69% (kappa 0.40).
 
 The submitted report is `paper/report_apart.pdf` (Apart template; source `paper/report.md`), and its figures are in `paper/figures/`.
 
