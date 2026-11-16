@@ -5,18 +5,18 @@ Code and data: https://github.com/rajkumar0932/Evidence-Audit-of-AI-Written-Comm
 
 ## Abstract
 
-AI accounts wrote 61% of the Community Notes on X that reached "Helpful" status in Aug–Oct 2026, most of them six accounts run by X itself. Published evaluations of these notes, X's own included, measure rater approval. None checks whether a note's cited sources support what it says.
+AI accounts wrote 61% of the Community Notes on X that reached "Helpful" status in Aug–Oct 2026, mostly six accounts run by X itself. Published evaluations of these notes, X's own included, measure rater approval; none checks whether a note's cited sources support what it says.
 
-We audit a pre-registered, stratified sample of 804 notes written by X's Community Writer, other AI writers and humans, across all three rating statuses. We pin each cited source to its version at the time of writing and split notes into 3,545 claims. Every "supported" verdict must quote a passage that code verifies; 99% did. A blind human audit validates the judge (κ = [TBD]).
+We audit a pre-registered, stratified sample of 804 notes by X's Community Writer, other AI writers and humans, across all three rating statuses. We pin each source to its version at the time of writing and split notes into 3,545 claims. Every "supported" verdict must quote a passage that code verifies; 99% did. An independent judge from another model family agrees on 88% of claims (κ = 0.75).
 
 The platform's signals do not track evidence:
 
 - Raters' "sources do not support note" tag detects unsupported notes no better than chance (AUROC 0.53, 95% CI 0.48–0.58).
-- Notes rated Helpful are unsupported about as often as notes rated Not Helpful (gap 3.8 points, CI −6 to +14).
+- Helpful notes are unsupported about as often as Not Helpful ones (gap 3.8 points, CI −6 to +14).
 
-AI notes are better grounded than human notes. On Helpful notes, 47% of claims by X's writer and 51% by other AI writers are supported by their own sources, against 26% for human writers. Yet most notes from every writer contain at least one claim their sources do not establish.
+AI notes are better grounded than human notes: on Helpful notes, 47% of claims by X's writer and 51% by other AI writers are supported by their own sources, against 26% for humans. Yet most notes from every writer contain at least one claim their sources do not establish.
 
-Only 58% of notes could be fully bound to retrievable evidence, and evidence hosted on X cannot be audited from outside. The audit costs about $4 of model usage and can be rerun on every public data release.
+Only 58% of notes could be fully bound to retrievable evidence. The audit costs about $4 of model usage and can be rerun on every public data release.
 
 ## 1. Introduction
 
@@ -115,18 +115,21 @@ A judge then receives only the in-scope claims and the retrieved source texts. I
 
 Every verdict except `NOT_IN_SOURCE` must quote the deciding passage verbatim. Code checks the quote against the retrieved text, after normalising Unicode, quote marks, dashes and whitespace. A failed quote is re-asked once, and otherwise coded `UNVERIFIED`.
 
-**Model choice.** We deliberately use a small, inexpensive model, `claude-haiku-5-5`, for both claim splitting and verdicts. It runs through Claude Code's headless mode with tools, plugins and settings disabled, from an empty working directory. The whole audit costs about $4 at API prices, so a platform or researcher could repeat it monthly. Its accuracy is measured by the human audit (§3.5), not assumed.
+**Model choice.** We deliberately use a small, inexpensive model, `claude-haiku-5-5`, for both claim splitting and verdicts. It runs through Claude Code's headless mode with tools, plugins and settings disabled, from an empty working directory. The whole audit costs about $4 at API prices, so a platform or researcher could repeat it monthly. Its reliability is tested against two other judges (§3.5), not assumed.
 
 **Prompt development.** Prompts went through three rounds on the pilot and were frozen before the main run (Appendix C). The pilot fixed two failure modes:
 
 - treating a quoted rumour as evidence against the note that debunks it;
 - dropping qualifiers such as "not officially announced".
 
-**Second judge.** A second judge from another model family (`gemini-3.5-flash-lite`, free tier) scored the same claims on the Helpful notes and the labelled notes [TBD coverage].
+### 3.5 Judge validation
 
-### 3.5 Blind human validation
+We pre-registered a blind human validation of 90 claims, stratified by group and by the judge's label. It could not be completed in the time available (Appendix C). We instead test the judge against two other judges, scoring the same claims with the same frozen prompt and quote verification:
 
-90 claims (30 per group, stratified by the judge's label) were labelled by a human against the same source texts with the same rubric. The labelling page hides the group, status and the judge's verdict. We report Cohen's κ overall and by AI vs human authorship, and weighted precision and recall of "unsupported".
+1. **Cross-family judge.** `gemini-3.5-flash-lite` (Google, free tier) scored every Helpful note plus the validation notes: 251 judged notes, 1,024 shared claims.
+2. **Stronger same-family reference.** `claude-opus-5-5` scored the notes behind the 90 stratified validation claims. On those 90 claims we report weighted precision and recall of the primary judge's "unsupported".
+
+We report Cohen's κ overall and split by AI vs human authorship, which tests for authorship-dependent bias. We also recompute H1 and H3 under each judge. Model agreement cannot rule out errors that models share, so human validation remains future work.
 
 ### 3.6 Ratings and analysis
 
@@ -210,7 +213,43 @@ Raters' judgements about sources do not reflect what the sources say.
 
 ### 4.5 Judge validation
 
-[TBD from `data/release/judge_validation.json`: κ (4-class and unsupported vs not) overall and by AI vs human authorship; confusion matrix; weighted precision and recall of "unsupported". Second-judge agreement with Gemini on the shared claims.]
+**Cross-family agreement.** On 1,024 claims scored by both the primary judge (Claude Haiku 5.5) and Gemini 3.5 Flash-Lite:
+
+| Comparison | Agreement | Cohen's κ |
+|---|---|---|
+| Supported vs unsupported | 87.9% | 0.75 |
+| All four labels | 75.6% | 0.61 |
+| Note-level UNSUPPORTED (251 notes) | 86.9% | 0.69 |
+
+- **No authorship bias:** agreement is similar for AI-written notes (κ 0.76, supported vs unsupported) and human-written notes (κ 0.67).
+- **Where they disagree:** mostly the `PARTIAL`/`SUPPORTED` boundary (112 claims the primary judge called `PARTIAL` were `SUPPORTED` for Gemini) and `PARTIAL`/`NOT_IN_SOURCE` (79).
+- **Gemini is stricter, not more lenient.** It marks 76% of notes unsupported, against the primary judge's 64%. The high unsupported rates are not an artefact of the primary judge.
+
+**Findings under each judge.** Recomputed with Gemini's verdicts, the conclusions are unchanged:
+
+- **H1:** X's writer is 8.8 points below humans among Helpful notes (CI −21.4 to +4.0), against 10.0 points with the primary judge.
+- **H3:** the rater-tag AUROC is 0.53 under both judges.
+
+**Stronger reference.** Claude Opus 5.5 re-judged 60 of the 86 validation notes before a usage limit stopped it, covering 79 of the 90 stratified validation claims and 355 claims in all.
+
+| Comparison with Opus | Result |
+|---|---|
+| Supported vs unsupported, all 355 shared claims | 88.7% agreement, κ = 0.74 |
+| Same, AI-written notes | κ = 0.77 |
+| Same, human-written notes | κ = 0.63 |
+| Primary judge's "unsupported" on the 79 validation claims (weighted) | precision 0.87, recall 0.88 |
+
+By label, the reference confirms:
+
+- **almost every `SUPPORTED`** (100% of validation claims) **and `NOT_IN_SOURCE`** (89%);
+- **few `CONTRADICTED` verdicts.** It mostly downgrades them to `PARTIAL` or `NOT_IN_SOURCE`. The rare contradicted label should be read as "not supported", not as a confirmed contradiction.
+
+**The *level* of unsupported notes depends on the judge; the comparisons do not.**
+
+- On the 76 notes it shares with the primary judge, Opus marks 58% unsupported, against the primary judge's 70%.
+- On its 251 notes, Gemini marks 76%, against the primary judge's 64%.
+
+The absolute rates in §4.2 should therefore be read as a range across judges. The AI–human gap (§4.2) and the null rater signal (§4.4) hold under both judges that scored the full Helpful sample (Claude Haiku and Gemini).
 
 ### 4.6 What unsupported claims look like
 
@@ -241,7 +280,7 @@ This matters most because the AI writers are tuned to predict and maximise rater
 
 **Limitations** are detailed in Appendix A. The most important are:
 
-- **Judge error.** It is quantified by the human audit (§4.5).
+- **Judge error.** Two other judges agree substantially with the primary judge (§4.5), but no human validation was completed.
 - **A strict note-level outcome.** One unsupported claim out of about 4.4 makes a note unsupported; the claim-level rates are the gentler measure.
 - **Characterisations a source cannot establish.** Some characterisations ("this account is a parody") may be supported by the account itself rather than by any page we could retrieve.
 
@@ -270,7 +309,7 @@ Evaluations that stop at "rated helpful" therefore miss the property that matter
 **Limitations.**
 
 - **Observational design.** We measure association, not why notes are unsupported.
-- **The judge is a small LLM.** Quote verification removes hallucinated support but not mistaken "not in source" verdicts. The human audit (§4.5) estimates both error types.
+- **No human validation.** The pre-registered blind human validation could not be completed. Judge reliability rests on agreement with a cross-family judge and a stronger reference model (§4.5), which cannot rule out errors that models share. Quote verification removes hallucinated support but not mistaken "not in source" verdicts. Human labelling of the released 90-claim validation set is the most important next step.
 - **Missing sources.** A claim may be supported by a source we could not retrieve (an X post, a video). Hence the all-sources-retrieved analysis, in which the AI–human gap widens.
 - **Time pinning.** 59 sources come from snapshots after the note was written and 279 are live copies; these may differ from what the writer saw.
 - **Deleted notes** are invisible in the public data, and X's writer deletes drafts predicted to fail.
@@ -297,5 +336,6 @@ The frozen prompts are `prompts/decompose.md` (SHA-256 `24c9df9a…`) and `promp
 | 14 Nov, before any judging | Added the all-sources-retrieved sensitivity analysis; specified how `UNVERIFIED` verdicts count; defined H2a as a within-group gap (a synthetic dry run showed the pooled version confounded) |
 | 15 Nov, 21:48 | Stage 2 committed before the main run: prompts frozen after three pilot rounds; switch from `claude-opus-5-5` to `claude-haiku-5-5` via Claude Code headless mode, for cost reasons |
 | 15 Nov, 22:35 | Human validation reduced from 150 to 90 claims (time), before any label was collected |
+| 15 Nov, ~22:55 | Human validation not completed; replaced by a cross-family judge (Gemini) and a stronger reference judge (Claude Opus 5.5), after the primary run (§3.5) |
 
 All entries are in the repository's git history.

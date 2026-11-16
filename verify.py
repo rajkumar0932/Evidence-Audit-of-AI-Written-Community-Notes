@@ -57,6 +57,17 @@ def main():
         if a and b:
             print(f"  H1 point estimate cw|CRH - human|CRH: {sum(a) / len(a) - sum(b) / len(b):+.1%}")
 
+    if (R / "judge_agreement.json").exists():
+        a = json.loads((R / "judge_agreement.json").read_text(encoding="utf-8"))
+        print("== Judge agreement ==")
+        for k in ("haiku_vs_gemini", "haiku_vs_opus"):
+            if a.get(k, {}).get("all"):
+                print(f"  {k:<16} {a[k]['all']}")
+        if a.get("haiku_vs_opus_on_90_validation_claims", {}).get("n_claims"):
+            print(f"  vs Opus on 90 validation claims: {a['haiku_vs_opus_on_90_validation_claims']}")
+        for j, h in a.get("headline_by_judge", {}).items():
+            print(f"  headline under {j:<7} H1 {h['H1_cw_minus_human']}  H3 AUROC {h['H3_auroc']}")
+
     if (R / "judge_validation.json").exists():
         v = json.loads((R / "judge_validation.json").read_text(encoding="utf-8"))
         print("== Judge vs blind human labels ==")
