@@ -294,8 +294,9 @@ The pilot showed two recurring patterns:
 - **Unsourced labels.** A note asserts a label (fabricated, AI-generated) and cites a page that only shows where the content came from.
 - **Over-specified details.** A note states a precise figure, date or causal detail (for example an "uncontrolled" dive) that its source gives only partly.
 
-![Figure 4](figures/fig_claim_types.png)
-*Figure 4. Claim types among each group's unsupported claims.*
+![](figures/fig_claim_types.png){width=60%}
+
+*Figure 4. Claim types among each group's unsupported claims (primary judge).*
 
 ## Appendix F. Method details
 
