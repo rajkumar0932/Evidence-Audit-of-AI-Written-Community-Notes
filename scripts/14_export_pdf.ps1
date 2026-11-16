@@ -1,6 +1,6 @@
 # Export paper/report_apart.docx to PDF with Microsoft Word, and report page counts:
 # total pages and the page on which "References" and each appendix start (the 8-page limit excludes them).
-param([string]$Docx = "$PSScriptRoot\..\paper\report_apart.docx")
+param([string]$Docx = "$PSScriptRoot\..\paper\Evidence_Audit_Community_Notes.docx")
 $Docx = (Resolve-Path $Docx).Path
 $Pdf = [System.IO.Path]::ChangeExtension($Docx, ".pdf")
 $word = New-Object -ComObject Word.Application
