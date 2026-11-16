@@ -213,71 +213,32 @@ Raters' judgements about sources do not reflect what the sources say.
 
 ### 4.5 Judge validation
 
-**Cross-family agreement.** On 1,024 claims scored by both the primary judge (Claude Haiku 5.5) and Gemini 3.5 Flash-Lite:
+The primary judge was checked three ways (full details in Appendix D):
 
-| Comparison | Agreement | Cohen's κ |
-|---|---|---|
-| Supported vs unsupported | 87.9% | 0.75 |
-| All four labels | 75.6% | 0.61 |
-| Note-level UNSUPPORTED (251 notes) | 86.9% | 0.69 |
-
-- **No authorship bias:** agreement is similar for AI-written notes (κ 0.76, supported vs unsupported) and human-written notes (κ 0.67).
-- **Where they disagree:** mostly the `PARTIAL`/`SUPPORTED` boundary (112 claims the primary judge called `PARTIAL` were `SUPPORTED` for Gemini) and `PARTIAL`/`NOT_IN_SOURCE` (79).
-- **Gemini is stricter, not more lenient.** It marks 76% of notes unsupported, against the primary judge's 64%. The high unsupported rates are not an artefact of the primary judge.
-
-**Findings under each judge.** Recomputed with Gemini's verdicts, the conclusions are unchanged:
-
-- **H1:** X's writer is 8.8 points below humans among Helpful notes (CI −21.4 to +4.0), against 10.0 points with the primary judge.
-- **H3:** the rater-tag AUROC is 0.53 under both judges.
-
-**Stronger reference.** Claude Opus 5.5 re-judged 60 of the 86 validation notes before a usage limit stopped it, covering 79 of the 90 stratified validation claims and 355 claims in all.
-
-| Comparison with Opus | Result |
+| Check | Result |
 |---|---|
-| Supported vs unsupported, all 355 shared claims | 88.7% agreement, κ = 0.74 |
-| Same, AI-written notes | κ = 0.77 |
-| Same, human-written notes | κ = 0.63 |
-| Primary judge's "unsupported" on the 79 validation claims (weighted) | precision 0.87, recall 0.88 |
+| Cross-family judge (Gemini), 1,024 shared claims | 87.9% agreement on supported vs unsupported, κ 0.75 |
+| Same, by authorship | κ 0.76 on AI-written notes, 0.67 on human-written notes |
+| Stronger reference (Claude Opus), 355 shared claims | 88.7% agreement, κ 0.74 |
+| Same, on 79 of the 90 stratified validation claims | weighted precision of "unsupported" 0.87, recall 0.88 |
+| Blind human spot-check by one author, 29 decided claims | 69% agreement, κ 0.40; the author confirmed 12 of 13 of the judge's "unsupported" verdicts (weighted precision 0.91) |
 
-By label, the reference confirms:
+**Headline findings.** The findings hold under both judges that scored the full Helpful sample:
 
-- **almost every `SUPPORTED`** (100% of validation claims) **and `NOT_IN_SOURCE`** (89%);
-- **few `CONTRADICTED` verdicts.** It mostly downgrades them to `PARTIAL` or `NOT_IN_SOURCE`. The rare contradicted label should be read as "not supported", not as a confirmed contradiction.
+- **H1:** X's writer is 8.8 points below humans under Gemini, against 10.0 points under the primary judge.
+- **H3:** the rater-tag AUROC is 0.53 under both.
 
-**The *level* of unsupported notes depends on the judge; the comparisons do not.**
+**What depends on the judge.** The *level* of unsupported notes does:
 
-- On the 76 notes it shares with the primary judge, Opus marks 58% unsupported, against the primary judge's 70%.
-- On its 251 notes, Gemini marks 76%, against the primary judge's 64%.
+- Opus marks fewer notes unsupported than the primary judge (58% vs 70% on shared notes).
+- Gemini marks more (76% vs 64% of notes).
+- On the 29 spot-checked claims, the human author judged 69% unsupported, where the primary judge said 45%.
 
-The absolute rates in §4.2 should therefore be read as a range across judges. The AI–human gap (§4.2) and the null rater signal (§4.4) hold under both judges that scored the full Helpful sample (Claude Haiku and Gemini).
-
-**Human spot-check.** One author blindly labelled 30 of the validation claims (10 per group) with a single question: does the source support at least the main point? To save time, the labelling view showed the passages around the claim's key words by default, with the full text one click away.
-
-- **Two passes.** A first pass decided 7 claims. A second pass, using the full text, decided 29 (9 supported, 20 not supported, 1 can't tell). The 7 first-pass labels were unchanged.
-- **Agreement on the 29 decided claims:**
-
-| Judge | Agreement with the author | κ | Weighted precision of "unsupported" | Weighted recall |
-|---|---|---|---|---|
-| Primary (Claude Haiku) | 69% | 0.40 | **0.91** | 0.63 |
-| Claude Opus | 63% | 0.32 | 0.90 | 0.59 |
-| Gemini (14 claims) | 64% | 0.31 | 0.81 | 0.74 |
-
-- **Where they disagree.** The author was stricter than every judge: 69% of claims not supported. When the primary judge said "unsupported", the author agreed in 12 of 13 cases. 8 of the 9 disagreements are claims the judge called `SUPPORTED` or `PARTIAL` and the author did not.
-- **All 8 of those judge quotes are verified verbatim in the source, and 7 of the 8 were visible in the default labelling view.** These disagreements therefore reflect a stricter standard on the author's part, labelling error, or judge leniency. A check this small cannot separate those explanations.
-
-The spot-check gives no sign that the judge over-flags unsupported claims. Relative to this labeller, judge-based unsupported rates are conservative. With 29 claims and one labeller, it is not a substitute for full validation.
+The absolute rates in §4.2 should therefore be read as a range. Both the cross-family judge and the human spot-check suggest the primary judge's unsupported rates are, if anything, conservative.
 
 ### 4.6 What unsupported claims look like
 
-Characterisations are the largest share of unsupported claims for X's writer (43%) and humans (41%), followed by event claims (Figure 4). Typical characterisations are "the images are AI-generated" or "the account is a parody". Other AI writers' unsupported claims are more often specific numbers and dates (23%).
-
-The pilot showed two recurring patterns:
-
-- **Unsourced labels.** A note asserts a label (fabricated, AI-generated) and cites a page that only shows where the content came from.
-- **Over-specified details.** A note states a precise figure, date or causal detail (for example an "uncontrolled" dive) that its source gives only partly.
-
-![Figure 4](figures/fig_claim_types.png)
-*Figure 4. Claim types among each group's unsupported claims.*
+Characterisations ("the images are AI-generated", "the account is a parody") are the largest share of unsupported claims for X's writer (43%) and human writers (41%), followed by event claims. Other AI writers' unsupported claims are more often specific numbers and dates (23%). Details are in Appendix E.
 
 ## 5. Discussion
 
@@ -358,3 +319,71 @@ The frozen prompts are `prompts/decompose.md` (SHA-256 `24c9df9a…`) and `promp
 | 16 Nov, ~09:00 | Quick blind human spot-check of 30 claims (binary question) registered before any label; two labelling passes, 29 decided labels in the second (§4.5) |
 
 All entries are in the repository's git history.
+
+## Appendix D. Judge validation details
+
+**Cross-family agreement.** On 1,024 claims scored by both the primary judge (Claude Haiku 5.5) and Gemini 3.5 Flash-Lite:
+
+| Comparison | Agreement | Cohen's κ |
+|---|---|---|
+| Supported vs unsupported | 87.9% | 0.75 |
+| All four labels | 75.6% | 0.61 |
+| Note-level UNSUPPORTED (251 notes) | 86.9% | 0.69 |
+
+- **No authorship bias:** agreement is similar for AI-written notes (κ 0.76, supported vs unsupported) and human-written notes (κ 0.67).
+- **Where they disagree:** mostly the `PARTIAL`/`SUPPORTED` boundary (112 claims the primary judge called `PARTIAL` were `SUPPORTED` for Gemini) and `PARTIAL`/`NOT_IN_SOURCE` (79).
+- **Gemini is stricter, not more lenient.** It marks 76% of notes unsupported, against the primary judge's 64%. The high unsupported rates are not an artefact of the primary judge.
+
+**Findings under each judge.** Recomputed with Gemini's verdicts, the conclusions are unchanged:
+
+- **H1:** X's writer is 8.8 points below humans among Helpful notes (CI −21.4 to +4.0), against 10.0 points with the primary judge.
+- **H3:** the rater-tag AUROC is 0.53 under both judges.
+
+**Stronger reference.** Claude Opus 5.5 re-judged 60 of the 86 validation notes before a usage limit stopped it, covering 79 of the 90 stratified validation claims and 355 claims in all.
+
+| Comparison with Opus | Result |
+|---|---|
+| Supported vs unsupported, all 355 shared claims | 88.7% agreement, κ = 0.74 |
+| Same, AI-written notes | κ = 0.77 |
+| Same, human-written notes | κ = 0.63 |
+| Primary judge's "unsupported" on the 79 validation claims (weighted) | precision 0.87, recall 0.88 |
+
+By label, the reference confirms:
+
+- **almost every `SUPPORTED`** (100% of validation claims) **and `NOT_IN_SOURCE`** (89%);
+- **few `CONTRADICTED` verdicts.** It mostly downgrades them to `PARTIAL` or `NOT_IN_SOURCE`. The rare contradicted label should be read as "not supported", not as a confirmed contradiction.
+
+**The *level* of unsupported notes depends on the judge; the comparisons do not.**
+
+- On the 76 notes it shares with the primary judge, Opus marks 58% unsupported, against the primary judge's 70%.
+- On its 251 notes, Gemini marks 76%, against the primary judge's 64%.
+
+The absolute rates in §4.2 should therefore be read as a range across judges. The AI–human gap (§4.2) and the null rater signal (§4.4) hold under both judges that scored the full Helpful sample (Claude Haiku and Gemini).
+
+**Human spot-check.** One author blindly labelled 30 of the validation claims (10 per group) with a single question: does the source support at least the main point? To save time, the labelling view showed the passages around the claim's key words by default, with the full text one click away.
+
+- **Two passes.** A first pass decided 7 claims. A second pass, using the full text, decided 29 (9 supported, 20 not supported, 1 can't tell). The 7 first-pass labels were unchanged.
+- **Agreement on the 29 decided claims:**
+
+| Judge | Agreement with the author | κ | Weighted precision of "unsupported" | Weighted recall |
+|---|---|---|---|---|
+| Primary (Claude Haiku) | 69% | 0.40 | **0.91** | 0.63 |
+| Claude Opus | 63% | 0.32 | 0.90 | 0.59 |
+| Gemini (14 claims) | 64% | 0.31 | 0.81 | 0.74 |
+
+- **Where they disagree.** The author was stricter than every judge: 69% of claims not supported. When the primary judge said "unsupported", the author agreed in 12 of 13 cases. 8 of the 9 disagreements are claims the judge called `SUPPORTED` or `PARTIAL` and the author did not.
+- **All 8 of those judge quotes are verified verbatim in the source, and 7 of the 8 were visible in the default labelling view.** These disagreements therefore reflect a stricter standard on the author's part, labelling error, or judge leniency. A check this small cannot separate those explanations.
+
+The spot-check gives no sign that the judge over-flags unsupported claims. Relative to this labeller, judge-based unsupported rates are conservative. With 29 claims and one labeller, it is not a substitute for full validation.
+
+## Appendix E. What unsupported claims look like
+
+Characterisations are the largest share of unsupported claims for X's writer (43%) and humans (41%), followed by event claims (Figure 4). Typical characterisations are "the images are AI-generated" or "the account is a parody". Other AI writers' unsupported claims are more often specific numbers and dates (23%).
+
+The pilot showed two recurring patterns:
+
+- **Unsourced labels.** A note asserts a label (fabricated, AI-generated) and cites a page that only shows where the content came from.
+- **Over-specified details.** A note states a precise figure, date or causal detail (for example an "uncontrolled" dive) that its source gives only partly.
+
+![Figure 4](figures/fig_claim_types.png)
+*Figure 4. Claim types among each group's unsupported claims.*
