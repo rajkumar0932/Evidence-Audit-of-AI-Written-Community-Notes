@@ -5,6 +5,8 @@ AI now writes most of the Community Notes that X shows its users. This repositor
 
 Everything here was written during the Apart Research **AI x Epistemics Research Sprint** (13–16 Nov 2026). No code or data predates the sprint. The study was **pre-registered** before any evidence was retrieved (`PREREGISTRATION.md`; the git history shows the order of work).
 
+**Team** (National Institute of Technology Agartala): Raj Gupta ([@rajkumar0932](https://github.com/rajkumar0932)), Prakash Kumar ([@prakash-kumar592](https://github.com/prakash-kumar592)), Abhay Pratap Singh ([@AbhaySP24](https://github.com/AbhaySP24)).
+
 ## Findings (804 notes, Aug–Oct 2026)
 
 - **Rater signals do not track evidence.** Raters' "sources do not support note" tag detects unsupported notes no better than chance (AUROC 0.53, 95% CI 0.48–0.58), although a second judge predicts the same labels well (AUROC 0.90). Helpful and Not Helpful notes did not differ detectably in support.
