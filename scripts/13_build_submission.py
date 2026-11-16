@@ -29,7 +29,8 @@ PAPER = ROOT / "paper"
 TEMPLATE = PAPER / "template" / "apart_template.docx"
 FONT = "Old Standard TT"
 AUTHORS = [("Raj Gupta", "National Institute of Technology Agartala"),
-           ("Prakash Kumar", "National Institute of Technology Agartala")]
+           ("Prakash Kumar", "National Institute of Technology Agartala"),
+           ("Abhay Pratap Singh", "National Institute of Technology Agartala")]
 BODY_PT, H2_PT, H3_PT, TABLE_PT, CAPTION_PT = 11, 14, 12, 9.5, 10
 
 
@@ -165,7 +166,7 @@ def main() -> None:
         rows[0].remove(extra)
     # The template's author grid is fixed at ~1.4 in wide (fine for "Author name 1"); widen it so a
     # full affiliation fits: two columns of 3,500 twips (~2.4 in) each.
-    col_w = 3500
+    col_w = min(3500, 7100 // len(AUTHORS))  # the author box is ~7,185 twips wide
     cols = grid.find(qn("w:tblGrid")).findall(qn("w:gridCol"))
     for extra in cols[len(AUTHORS):]:
         extra.getparent().remove(extra)
@@ -276,7 +277,7 @@ def main() -> None:
             else:
                 font(r, size=BODY_PT, color="1155CC" if in_link else None, underline=True if in_link else None)
 
-    out = PAPER / "report_apart.docx"
+    out = PAPER / "Evidence_Audit_Community_Notes.docx"
     base.save(str(out))
     body_docx.unlink()
     print(f"wrote {out}: {len(base.tables) - 1} body tables, {len(base.inline_shapes)} figures, "
