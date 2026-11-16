@@ -96,6 +96,13 @@ Any change after this commit is listed here with its date and reason.
 
   This change was made *after* the primary judging run. The report presents it as a limitation: model-based validation cannot rule out errors that models share, so human validation remains future work.
 
+- **2026-11-16, ~09:00 IST, before any label was collected. Added a quick blind human spot-check** (`scripts/06b_quick_label.py`).
+  - **Sample:** 30 of the 90 stratified validation claims, 10 per group, drawn with seed `SEED+30`.
+  - **Labels:** a single binary question, "Do the sources support at least the main point?" (`SUPPORTED` / `NOT_SUPPORTED` / `CANT_TELL`). This matches the primary outcome's binary: the judges' `NOT_IN_SOURCE` and `CONTRADICTED` count as not supported.
+  - **What the labeller sees:** the passages around the claim's key words are shown by default, with the full text one click away. No group, status or judge verdict is shown.
+  - **Reported against all three judges:** agreement, κ, and weighted precision and recall.
+  - **Scope:** this is a small spot-check by one author, not the pre-registered 90-claim validation.
+
 ## 9. Stage 2 amendment (15 Nov 2026, ~21:50 IST, before any main-sample note was judged)
 
 **Model and runtime (deviation from §5.4).** We use `claude-haiku-5-5` as the primary model for both claim decomposition and verdicts. We do not use `claude-opus-5-5`.
