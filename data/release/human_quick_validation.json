@@ -1,0 +1,26 @@
+{
+  "n_labelled": 30,
+  "n_usable": 7,
+  "human_not_supported_share": 0.286,
+  "claude_haiku_primary": {
+    "n": 7,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "precision_unsupported_w": 1.0,
+    "recall_unsupported_w": 1.0
+  },
+  "claude_opus_reference": {
+    "n": 7,
+    "agreement": 0.857,
+    "kappa": 0.588,
+    "precision_unsupported_w": 1.0,
+    "recall_unsupported_w": 0.3
+  },
+  "gemini_second": {
+    "n": 3,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "precision_unsupported_w": 1.0,
+    "recall_unsupported_w": 1.0
+  }
+}
