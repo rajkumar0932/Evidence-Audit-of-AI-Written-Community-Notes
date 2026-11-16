@@ -13,7 +13,7 @@ Everything here was written during the Apart Research **AI x Epistemics Research
 - **Much of the evidence cannot be checked.** Only 58% of notes have all their cited sources retrievable as text.
 - **The findings do not depend on the judge.** An independent judge from another model family (Gemini) agrees with the primary judge (Claude) on 88% of claims (κ 0.75) and reproduces the findings.
 
-The paper draft is `paper/report.md`, and its figures are in `paper/figures/`.
+The submitted report is `paper/report_apart.pdf` (Apart template; source `paper/report.md`), and its figures are in `paper/figures/`.
 
 ## Method in one paragraph
 

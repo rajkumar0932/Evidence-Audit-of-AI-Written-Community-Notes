@@ -20,252 +20,195 @@ Only 58% of notes could be fully bound to retrievable evidence. The audit costs 
 
 ## 1. Introduction
 
-Community Notes is the largest crowd fact-checking system in deployment. A note is shown under a post only when raters who usually disagree with each other both rate it helpful. Since September 2025, X has also accepted notes written by AI.
+Community Notes is the largest crowd fact-checking system in deployment. A note appears under a post only when raters who usually disagree both rate it helpful, and since September 2025 X also accepts notes written by AI. In our window (notes created 14 Aug–31 Oct 2026), AI accounts wrote **61%** of the notes that reached Helpful status (14,156 of 23,136). Six accounts with near-identical monthly quotas wrote 87.5% of all AI notes. They match the six accounts that X's open-source Community Writer lists as its own.
 
-In our window (notes created 14 Aug–31 Oct 2026), AI accounts wrote **61%** of the notes that reached Helpful status: 14,156 of 23,136. Six accounts with near-identical monthly quotas wrote 87.5% of all AI notes. Their volumes match the six accounts that X's open-source Community Writer lists as its own (§3.1).
-
-Three 2026 studies evaluate these AI notes, one by the X engineers who built the Community Writer. All three measure quality as a platform outcome: whether a note reached Helpful status, how quickly, and with how many ratings [Gong & Wu 2026; De et al. 2026; Miller et al. 2026]. None checks whether the sources a note cites establish what it claims. Miller et al. name "whether helpfulness ratings track factual accuracy and source quality" as an open question, and Gong & Wu list evidence-grounding assessment as future work.
+Three 2026 studies evaluate these AI notes, one of them by the X engineers who built the Community Writer [Gong & Wu 2026; De et al. 2026; Miller et al. 2026]. All three measure quality as a platform outcome: whether a note reached Helpful status, how fast, and with how many ratings. None checks whether a note's sources establish what it claims. Miller et al. name "whether helpfulness ratings track factual accuracy and source quality" as an open question.
 
 The gap matters for three reasons:
 
-- **The AI writers are optimised against the proxy.** The Community Writer's quality gates are LLM predictions of what raters will find helpful, and a model deletes drafts predicted to fail. Its writer is told to "confirm that the content of the URL supports" each note, so the same model family drafts the note and checks its sources.
-- **It is a deployed instance of scalable oversight.** AI writes, humans rate, and an algorithm decides what millions of users see. Whether the human layer checks evidence is an empirical question.
-- **Checkability decides what can be audited.** It matters what share of a live fact-checking system's evidence an outsider can bind to retrievable text.
-
-**Findings.**
-
-1. **The platform's signals are blind to evidence support.** Raters' source tags detect unsupported notes at chance level (AUROC 0.48–0.54 for every source-related tag). Helpful and Not Helpful notes are unsupported at similar rates.
-2. **AI notes are better grounded than human notes, not worse.** The claim-level support rate on Helpful notes is 47% for X's writer and 51% for other AI writers, against 26% for humans. At note level, X's Helpful notes are 10 points less likely than human ones to contain an unsupported claim (not significant). The gap is 19 points among notes whose sources were all retrieved (95% CI −37 to −0.5).
-3. **Unsupported claims are nevertheless the norm.** 56–81% of checkable notes in every group contain at least one claim their own sources do not establish. Most such claims are characterisations ("the image is AI-generated") and event claims.
-4. **A large share of the evidence cannot be checked at all.** 42% of notes cite at least one source that cannot be retrieved as text (X posts, video, dead or paywalled pages).
+- **The AI writers are optimised against the proxy.** The Community Writer's quality gates predict rater approval, and drafts predicted to fail are deleted.
+- **It is a deployed instance of scalable oversight.** AI writes, humans rate, and an algorithm decides what millions see, so whether the human layer checks evidence is an empirical question with safety relevance.
 
 **Contributions.**
 
-- The first claim-level, time-pinned audit of the evidence behind AI-written Community Notes, compared with human notes.
-- Pre-registered tests of whether Helpful status and raters' own source tags track verified support.
-- A checkability measurement for a live fact-checking system.
-- An open audit that anyone can rerun: verdicts are anchored to quotes that can be checked by string match, and a run costs about $4.
+1. The first claim-level, time-pinned audit of the evidence behind AI-written Community Notes, compared with human notes. It covers 804 notes and 3,545 claims and was pre-registered.
+2. Tests of whether Helpful status and raters' own source tags track verified support. Neither does; the rater tag's AUROC is 0.53.
+3. Evidence that AI notes are better grounded than human notes: 47–51% of claims supported on Helpful notes, against 26% for humans. Even so, most notes from every writer contain an unsupported claim.
+4. A checkability measurement (only 58% of notes are fully checkable) and an open, re-runnable audit costing about $4 per run.
 
-## 2. Background and related work
+## 2. Related work
 
-**Community Notes and AI writers.** Notes reach "Currently Rated Helpful" (CRH) through a matrix-factorisation model that requires agreement across raters who usually disagree. Notes that fail reach "Currently Rated Not Helpful" (CRNH), and most notes stay at "Needs More Ratings" (NMR).
+**AI note writers.**
 
-- **Gong & Wu (2026)** characterise 20 AI writers up to May 2026. They find AI writers fast and prolific, with CRH rates (12.1%) between those of experts and laypeople. Their measure of veracity is platform status.
-- **De et al. (2026)** study how human feedback shapes AI-drafted collaborative notes.
-- **Miller et al. (2026)**, X engineers, describe the Community Writer. It runs two Grok-based writers with web, URL and X search tools, plus rejectors that predict helpfulness and check screenshots, recent context and revisions.
+- **Gong & Wu (2026)** characterise 20 AI writers up to May 2026. They are fast and prolific, with Helpful rates (12.1%) between those of experts and laypeople, but veracity is measured only as platform status.
+- **De et al. (2026)** study human feedback on AI-drafted collaborative notes.
+- **Miller et al. (2026)**, X engineers, describe the Community Writer: two Grok-based writers with web and X search, plus rejectors that predict helpfulness and check screenshots, context and revisions. Its writer is told to "confirm that the content of the URL supports" each note.
 - **Indicator (2026)** reported that six X-run accounts wrote more than 90% of AI notes in September 2026.
 
-**Sources in Community Notes.** Earlier work rates the *outlets* that notes cite, not whether a cited page supports the specific claim:
+**Sources in Community Notes.** Prior work rates the outlets notes cite, not whether a page supports the specific claim:
 
-- Kangur et al. (2024) find that cited outlets skew towards high-factuality, left-leaning sources.
-- Solovev & Pröllochs (2025) find that linking external sources raises the odds of a note being rated helpful (2.7×), and that high-bias sources lower them.
+- Cited outlets skew towards high-factuality, left-leaning sources (Kangur et al. 2024).
+- Linking external sources raises the odds of a helpful rating 2.7×, and high-bias sources lower them (Solovev & Pröllochs 2025).
 
-**Checking claims against cited sources.** Several methods test whether generated text is supported by its sources:
+**Checking claims against cited sources.**
 
 - AIS (Rashkin et al. 2023) formalises "attributable to identified sources".
 - ALCE (Gao et al. 2023) scores citation precision and recall.
-- FActScore (Min et al. 2023) splits text into atomic facts and checks each one.
-- SourceCheckup (Wu et al. 2025) found that 50–90% of LLM medical answers were not fully supported by their own citations.
+- FActScore (Min et al. 2023) checks atomic facts.
+- SourceCheckup (Wu et al. 2025) found 50–90% of LLM medical answers not fully supported by their own citations.
 
-We bring this family of methods to a live, rater-governed deployment, and add sources pinned to the time of writing and quotes verified mechanically.
+We bring these methods to a live, rater-governed deployment, and add sources pinned to the time of writing and mechanically verified quotes.
 
 ## 3. Data and methods
 
-The study was **pre-registered** in the repository's `PREREGISTRATION.md`, committed on 13 Nov 2026 at 23:57 IST, before any source was retrieved or any note judged. Later changes, all made before judging, are dated in Appendix C.
+The study was pre-registered (`PREREGISTRATION.md`, committed 13 Nov 2026 at 23:57 IST) before any source was retrieved or note judged. Later changes are dated in Appendix C, and further method details are in Appendix F.
 
-### 3.1 Data and groups
+### 3.1 Data, groups and sample
 
-We use X's public Community Notes data of 12 Nov 2026 (notes, status history, user enrollment and ratings; checksums are in the repository).
+We use X's public Community Notes data of 12 Nov 2026, covering notes created 14 Aug–31 Oct 2026 (286,940 notes).
 
-- **Window:** notes created 14 Aug–31 Oct 2026, which leaves at least 12 days for statuses to settle. That is 286,940 notes.
-- **AI writers:** accounts with `enrollmentState = apiEarnedIn` (41 accounts; 28 active in the window).
-- **X's writer (`cw`):** the six highest-volume API accounts. Their monthly volumes are near-identical (Aug 3,779–3,857; Sep 7,374–7,510; Oct 8,688–8,825), consistent with fixed quotas and with the six accounts listed in the Community Writer's `ACCOUNTS.md`.
-- **Other groups:** `ai_other` is the remaining API accounts; `human` is everyone else.
-- **Exclusions:**
-  - collaborative notes;
-  - notes with no status row (12.7%). That share is stable across creation weeks, consistent with deleted notes.
+- **AI writers** are accounts with `enrollmentState = apiEarnedIn`.
+- **`cw`** (X's Community Writer) is the six highest-volume API accounts. Their near-identical monthly volumes match the six accounts in the Community Writer's `ACCOUNTS.md`.
+- **`ai_other`** is the remaining API accounts, and **`human`** is everyone else.
+- **Excluded:** collaborative notes, and notes with no status row (12.7%, consistent with deleted notes).
 
-### 3.2 Sample
+A seeded stratified sample takes 110 Currently-Rated-Helpful (CRH), 78 Not-Helpful (CRNH) and 80 Needs-More-Ratings (NMR) notes per group, **804 notes** in total. The `cw|CRNH` cell is a census.
 
-We drew a seeded stratified sample of notes that contain a URL:
+### 3.2 Time-pinned sources, claims and quote-anchored verdicts
 
-- **Strata:** 3 groups × 3 statuses (CRH 110, CRNH 78, NMR 80 per group), **804 notes** in total. `cw` has exactly 78 CRNH notes, so that cell is a census.
-- **Pilot:** a disjoint set of 40 notes from 1–9 Nov, used only to develop prompts.
-- **Weights:** population sizes for each cell are released for weighting.
+Each cited source is retrieved as it was when the note was written: the Wikipedia revision live at that time, otherwise the last Internet Archive snapshot before the note. Failing that, we use a snapshot from up to 7 days after, and failing that the live page, flagged as unpinned. X posts and video cannot be retrieved, so they count towards checkability only.
 
-### 3.3 Time-pinned source retrieval
+An LLM splits each note into standalone claims, keeping numbers, qualifiers and the note's language. Claims only about the post itself are out of scope.
 
-Each cited URL is classified as an X post, other X page, video or social media, Wikipedia, or web page.
+A judge then sees only the claims and the retrieved source texts, never the author, group or status. It labels each claim `SUPPORTED`, `PARTIAL`, `NOT_IN_SOURCE` or `CONTRADICTED`. Every verdict except `NOT_IN_SOURCE` must quote the deciding passage verbatim. Code checks the quote against the source; a failed quote is re-asked once and otherwise coded `UNVERIFIED`.
 
-- **Wikipedia:** we retrieve the revision that was live when the note was written, via the MediaWiki API.
-- **Web pages:** we use the last Internet Archive snapshot *before* the note's creation time; else the first snapshot within 7 days after; else the live page, flagged as unpinned.
-- **Text extraction:** main text with trafilatura, keeping the full visible text as a fallback; PDF text via pypdf; still-compressed archive payloads are decompressed first.
-- **Not retrieved:** X posts and video count towards checkability, not towards support.
+We deliberately use a small, inexpensive model (`claude-haiku-5-5`, run through Claude Code's headless mode with tools disabled), so the audit costs about $4 per run and can be repeated monthly. Prompts were developed over three rounds on a disjoint 40-note pilot and frozen before the main run.
 
-### 3.4 Claims and quote-anchored verdicts
+### 3.3 Validation and analysis
 
-An LLM splits each note into standalone claims, keeping numbers, names, quotes, qualifiers and the note's language. Each claim is typed as number/date, attribution/quote, causal, characterisation, event or about-the-post. Claims about the post itself are out of scope.
+**Validation.** The judge is checked three ways:
 
-A judge then receives only the in-scope claims and the retrieved source texts. It never sees the author, group or status. For each claim it returns one of:
+- against a cross-family judge (`gemini-3.5-flash-lite`) on all Helpful notes;
+- against a stronger reference judge (`claude-opus-5-5`) on the notes behind 90 stratified validation claims;
+- by a blind, single-author human spot-check of 30 of those claims.
 
-- `SUPPORTED`: a source states or entails it, including every specific detail;
-- `PARTIAL`: the core is supported but a detail is missing or differs;
-- `NOT_IN_SOURCE`: no source establishes it, even if it is true;
-- `CONTRADICTED`: a source says something incompatible with the claim as qualified.
+The pre-registered 90-claim human validation could not be completed (Appendix C). Rater-tag shares come from 12.5 M public ratings, with rater IDs discarded.
 
-Every verdict except `NOT_IN_SOURCE` must quote the deciding passage verbatim. Code checks the quote against the retrieved text, after normalising Unicode, quote marks, dashes and whitespace. A failed quote is re-asked once, and otherwise coded `UNVERIFIED`.
+**Outcome.** A note is **UNSUPPORTED** if any of its checkable claims is `NOT_IN_SOURCE` or `CONTRADICTED`.
 
-**Model choice.** We deliberately use a small, inexpensive model, `claude-haiku-5-5`, for both claim splitting and verdicts. It runs through Claude Code's headless mode with tools, plugins and settings disabled, from an empty working directory. The whole audit costs about $4 at API prices, so a platform or researcher could repeat it monthly. Its reliability is tested against two other judges (§3.5), not assumed.
+**Pre-registered tests.**
 
-**Prompt development.** Prompts went through three rounds on the pilot and were frozen before the main run (Appendix C). The pilot fixed two failure modes:
+- **H1:** `cw` vs `human` among Helpful notes.
+- **H2:** Not-Helpful vs Helpful within groups, and whether that gap differs by group.
+- **H3:** the "sources do not support note" tag detects unsupported notes poorly (AUROC < 0.65).
 
-- treating a quoted rumour as evidence against the note that debunks it;
-- dropping qualifiers such as "not officially announced".
-
-### 3.5 Judge validation
-
-We pre-registered a blind human validation of 90 claims, stratified by group and by the judge's label. It could not be completed in the time available (Appendix C). We instead test the judge against two other judges, scoring the same claims with the same frozen prompt and quote verification:
-
-1. **Cross-family judge.** `gemini-3.5-flash-lite` (Google, free tier) scored every Helpful note plus the validation notes: 251 judged notes, 1,024 shared claims.
-2. **Stronger same-family reference.** `claude-opus-5-5` scored the notes behind the 90 stratified validation claims. On those 90 claims we report weighted precision and recall of the primary judge's "unsupported".
-
-We report Cohen's κ overall and split by AI vs human authorship, which tests for authorship-dependent bias. We also recompute H1 and H3 under each judge. A small blind human spot-check (30 claims, one author, binary question) was added before any label was collected. Model agreement cannot rule out errors that models share, so full human validation remains future work.
-
-### 3.6 Ratings and analysis
-
-From the ratings data (12.5 M ratings on notes in the window) we compute, for each note, the share of ratings that use each source-related tag. Rater IDs are discarded.
-
-- **Primary outcome:** a note is **UNSUPPORTED** if at least one of its checkable claims is `NOT_IN_SOURCE` or `CONTRADICTED`.
-- **Pre-registered hypotheses:**
-  - **H1:** `cw` and `human` differ among Helpful notes.
-  - **H2a:** CRNH notes are more often unsupported than CRH notes, measured as a weighted within-group gap.
-  - **H2b:** that gap differs between `cw` and `human` (interaction).
-  - **H3:** the "sources do not support note" tag detects unsupported notes poorly (AUROC < 0.65).
-- **Statistics:** 10,000-resample bootstrap CIs, permutation tests, and Holm correction across H1, H2a and H3.
+We use 10,000-resample bootstrap CIs, permutation tests and Holm correction.
 
 ## 4. Results
 
-The pipeline judged 621 of the 804 notes. The other 183 had no retrievable source (164) or no checkable claim (19). In all it produced 2,643 claim verdicts:
+The pipeline judged 621 of the 804 notes. Of the rest, 164 had no retrievable source and 19 no checkable claim. It produced 2,643 claim verdicts:
 
 | Verdict | Claims |
 |---|---|
-| `SUPPORTED` | 1,122 |
-| `PARTIAL` | 561 |
-| `NOT_IN_SOURCE` | 871 |
-| `CONTRADICTED` | 72 |
-| `UNVERIFIED` | 17 |
+| Supported | 1,122 |
+| Partial | 561 |
+| Not in source | 871 |
+| Contradicted | 72 |
+| Unverified | 17 |
 
-1,755 of 1,772 quotes (99.0%) were found verbatim in the cited source.
+99.0% of quotes were found verbatim in the source.
 
 ### 4.1 How much of the evidence can be checked
 
-Of the 1,548 URLs cited by sampled notes, 15% are X posts or pages and 5% are video or social media. Of the 1,240 fetchable URLs we retrieved text for 91%, and time-pinned text for 77%. At note level (Figure 1):
+Of 1,548 cited URLs, 15% are X posts or pages and 5% are video or social media. At note level (Figure 1):
 
-- **At least one retrievable source:** 92% of `cw` notes, against 61% of human notes.
-- **Every cited source retrievable:** only **58%** of notes overall, and 49% for `cw`, whose notes often pair a web page with an X post or video.
-- **Every source retrievable and pinned:** 44% of notes.
+- **At least one retrievable source:** 92% of `cw` notes, but only 61% of human notes.
+- **Every source retrievable:** only **58%** of all notes, and 49% for `cw`, which often pairs a web page with an X post.
+- **Every source retrievable and pinned to the time of writing:** 44% of notes.
 
-Evidence hosted on X is the least auditable from outside the platform.
+![](figures/fig_checkability.png){width=64%}
 
-![Figure 1](figures/fig_checkability.png)
 *Figure 1. Share of sampled notes whose cited evidence can be retrieved as text (left), retrieved in full (middle), and retrieved in full and pinned to the time of writing (right).*
 
 ### 4.2 Are notes supported by their own sources? (H1)
 
-Most notes in every group contain at least one claim their cited sources do not establish (Figure 2): 56–81% of checkable notes. Among Helpful notes:
+Most notes in every group contain at least one claim their sources do not establish: 56–81% of checkable notes (Figure 2). Among Helpful notes:
 
 | Group | Unsupported notes | 95% CI |
 |---|---|---|
-| X's writer (`cw`) | 64.6% | 54.5–73.7 |
-| Other AI writers | 56.0% | 46.2–65.9 |
-| Human writers | 74.6% | 63.5–85.7 |
+| `cw` | 64.6% | 54.5–73.7 |
+| Other AI | 56.0% | 46.2–65.9 |
+| Human | 74.6% | 63.5–85.7 |
 
-- **H1 (pre-registered):** X's writer is 10.0 points *below* humans (CI −24.1 to +4.3; p = .22; Holm p = .44). It is not significant.
-- **Fairest comparison:** restricted to notes whose sources were all retrieved, the gap widens to 19.2 points (CI −37.2 to −0.5; permutation p = .06). That restriction removes notes whose claims may rest on an unretrievable X post.
-- **Robustness:** every other sensitivity analysis points the same way, with gaps of −3 to −13 points. Leaving out any one of X's six accounts keeps its rate between 63% and 67%.
+- **Pre-registered H1:** the gap (`cw` − human) is −10.0 points (CI −24.1 to +4.3; p = .22, Holm p = .44).
+- **Notes whose sources were all retrieved:** the gap widens to −19.2 points (CI −37.2 to −0.5; p = .06).
+- **Robustness:** every sensitivity analysis points the same way (−3 to −13 points), and dropping any single `cw` account leaves its rate within 63–67%.
 
-The clearest difference is at the claim level. On Helpful notes, 47.1% of claims by X's writer (CI 40.5–53.7) and 51.3% by other AI writers are `SUPPORTED`, against **25.8%** (17.7–34.5) for human writers. AI writers, which are instructed to retrieve and confirm each URL, cite sources that more often say what the note says.
+The difference is clearest at claim level. On Helpful notes, 47.1% of `cw` claims (CI 40.5–53.7) and 51.3% of other-AI claims are `SUPPORTED`, against **25.8%** (17.7–34.5) for human writers. Contradicted claims are rare: 5–10% of Helpful notes have one.
 
-Notes with a contradicted claim are rare for every group: 5–10% of Helpful notes.
+![](figures/fig_unsupported.png){width=64%}
 
-![Figure 2](figures/fig_unsupported.png)
 *Figure 2. Share of checkable notes with at least one claim that the note's own sources do not support, by writer and rating status, with 95% bootstrap CIs.*
 
 ### 4.3 Does Helpful status track evidence? (H2)
 
-Within each group, notes rated Not Helpful are unsupported only 3.8 points more often than notes rated Helpful (weighted within-group gap; CI −6.2 to +13.8; one-sided p = .23; Holm p = .44). The gap does not differ between X's writer and humans (interaction log-odds 0.12, CI −0.98 to +1.22).
-
-So Helpful status, the measure every published evaluation of AI notes relies on, carries almost no information about whether a note's evidence supports it.
+Within groups, Not-Helpful notes are unsupported only 3.8 points more often than Helpful ones (CI −6.2 to +13.8; p = .23, Holm p = .44). The gap does not differ between `cw` and humans (interaction log-odds 0.12, CI −0.98 to +1.22). Helpful status, the measure every published evaluation of AI notes relies on, carries almost no evidence signal.
 
 ### 4.4 Do raters notice? (H3)
 
-Among notes with at least 5 ratings (n = 567), the share of raters tagging "sources do not support note" separates unsupported from supported notes no better than chance:
+Among notes with at least 5 ratings (n = 567), the share of raters tagging "sources do not support note" separates unsupported from supported notes no better than chance. Its AUROC is **0.53** (CI 0.48–0.58), below 0.65 as pre-registered (Holm p = .0015).
 
-- **Primary tag:** AUROC **0.53** (CI 0.48–0.58). It is below 0.65 as pre-registered (Holm p = .0015).
-- **Every other source-related tag is also at chance:** "cites high-quality sources" 0.48, "sources missing or unreliable" 0.52, "incorrect" 0.54.
-- **Within groups** (Figure 3): 0.50 for X's writer, 0.54 for other AI writers, 0.56 for human writers.
-- **Across the whole window**, raters tick "cites high-quality sources" on 54% of ratings of Helpful notes for all three groups alike (53.7–54.1%).
+- **Every other source tag is also at chance:** "cites high-quality sources" 0.48, "sources missing or unreliable" 0.52, "incorrect" 0.54.
+- **So is each group** (Figure 3).
+- **Across the whole window**, raters tick "cites high-quality sources" on 54% of ratings of Helpful notes, for all three groups alike.
 
-Raters' judgements about sources do not reflect what the sources say.
+![](figures/fig_roc.png){width=48%}
 
-![Figure 3](figures/fig_roc.png)
 *Figure 3. ROC curves: share of raters tagging "sources do not support note" as a predictor of verified unsupported notes, by writer.*
 
 ### 4.5 Judge validation
 
-The primary judge was checked three ways (full details in Appendix D):
-
 | Check | Result |
 |---|---|
-| Cross-family judge (Gemini), 1,024 shared claims | 87.9% agreement on supported vs unsupported, κ 0.75 |
-| Same, by authorship | κ 0.76 on AI-written notes, 0.67 on human-written notes |
+| Cross-family judge (Gemini), 1,024 shared claims | 87.9% agreement on supported vs unsupported, κ 0.75 (AI-written 0.76, human-written 0.67) |
 | Stronger reference (Claude Opus), 355 shared claims | 88.7% agreement, κ 0.74 |
-| Same, on 79 of the 90 stratified validation claims | weighted precision of "unsupported" 0.87, recall 0.88 |
-| Blind human spot-check by one author, 29 decided claims | 69% agreement, κ 0.40; the author confirmed 12 of 13 of the judge's "unsupported" verdicts (weighted precision 0.91) |
+| Same reference, 79 of the 90 validation claims | Weighted precision of "unsupported" 0.87, recall 0.88 |
+| Blind human spot-check, one author, 29 decided claims | 69% agreement, κ 0.40. The author confirmed 12 of 13 of the judge's "unsupported" verdicts (weighted precision 0.91) |
 
-**Headline findings.** The findings hold under both judges that scored the full Helpful sample:
+**The comparisons hold under both judges that scored the full Helpful sample.** H1 is −8.8 points under Gemini against −10.0, and the H3 AUROC is 0.53 under both.
 
-- **H1:** X's writer is 8.8 points below humans under Gemini, against 10.0 points under the primary judge.
-- **H3:** the rater-tag AUROC is 0.53 under both.
+**The *level* of unsupported notes depends on the judge.** Opus is more lenient (58% against 70% on shared notes), Gemini stricter (76% against 64%), and the human author judged 69% of spot-checked claims unsupported where the primary judge said 45%. So the absolute rates in §4.2 are best read as a range, and if anything as conservative. Details are in Appendix D. The types of unsupported claims are in Appendix E; most are characterisations such as "the images are AI-generated".
 
-**What depends on the judge.** The *level* of unsupported notes does:
+## 5. Discussion and Limitations
 
-- Opus marks fewer notes unsupported than the primary judge (58% vs 70% on shared notes).
-- Gemini marks more (76% vs 64% of notes).
-- On the 29 spot-checked claims, the human author judged 69% unsupported, where the primary judge said 45%.
-
-The absolute rates in §4.2 should therefore be read as a range. Both the cross-family judge and the human spot-check suggest the primary judge's unsupported rates are, if anything, conservative.
-
-### 4.6 What unsupported claims look like
-
-Characterisations ("the images are AI-generated", "the account is a parody") are the largest share of unsupported claims for X's writer (43%) and human writers (41%), followed by event claims. Other AI writers' unsupported claims are more often specific numbers and dates (23%). Details are in Appendix E.
-
-## 5. Discussion
-
-**Helpful is not the same as supported.** The rating layer of the largest deployed fact-checking system appears to evaluate whether a note *seems* helpful and well-sourced, not whether its sources establish its claims. Raters' source tags are at chance, and the status they produce carries almost no evidence signal.
-
-This matters most because the AI writers are tuned to predict and maximise rater approval. A system that optimises against a signal blind to evidence has no pressure towards better-grounded notes. Our finding that AI notes are *nonetheless* better grounded than human notes most likely reflects the Community Writer's explicit retrieve-and-confirm step. Grounding is designed in; it is not selected by the ratings.
+**Helpful is not the same as supported.** The rating layer appears to evaluate whether a note *seems* helpful and well-sourced, not whether its sources establish its claims. AI writers are tuned to maximise rater approval, so nothing in the system pushes them towards better-grounded notes. That AI notes are nonetheless better grounded than human notes most likely reflects the Community Writer's explicit retrieve-and-confirm step: grounding is designed in, not selected for by the ratings.
 
 **Recommendations.**
 
-1. **Make checking cheap for raters.** Show the passage that supports each claim next to the note, so raters judge evidence rather than impressions.
-2. **Bind claims to quotes at writing time.** Require AI writers to attach a verifiable quote to each claim. Our pipeline shows this is mechanically checkable for 99% of positive verdicts.
-3. **Check evidence independently.** Add an evidence check that does not share a model family with the writer.
-4. **Archive what notes cite.** Notes should link to archived copies made at writing time. 42% of notes cannot be fully checked today, and evidence hosted on X cannot be checked from outside at all.
+1. **Show raters the evidence.** Display the passage that supports each claim, so raters judge evidence rather than impressions.
+2. **Bind claims to quotes.** Require AI writers to attach a verifiable quote to each claim; our pipeline verifies 99% of positive verdicts mechanically.
+3. **Check independently.** Add an evidence check that does not share a model family with the writer.
+4. **Archive what notes cite.** Link notes to archived copies made at writing time; 42% of notes cannot be fully checked today.
 
-**An audit that cannot go stale.** The public data refreshes daily and a full run costs a few dollars, so this audit can be repeated every month. A benchmark built on a live deployment, with fresh data each run, avoids the contamination and saturation problems of static evaluations.
+### Limitations
 
-**Limitations** are detailed in Appendix A. The most important are:
+Limitations are detailed in Appendix A. The main ones are:
 
-- **Judge error.** Two other judges agree substantially with the primary judge, and a 29-claim human spot-check confirms 91% of its "unsupported" verdicts (§4.5). Human–judge agreement overall is only moderate (κ 0.40).
-- **A strict note-level outcome.** One unsupported claim out of about 4.4 makes a note unsupported; the claim-level rates are the gentler measure.
-- **Characterisations a source cannot establish.** Some characterisations ("this account is a parody") may be supported by the account itself rather than by any page we could retrieve.
+- **Judge error.** Two other judges agree substantially with the primary judge, and a 29-claim human spot-check confirms 91% of its "unsupported" verdicts. But human–judge agreement is only moderate (κ 0.40), and full human validation was not completed.
+- **A strict note-level outcome.** One unsupported claim out of about 4.4 is enough; the claim-level rates are gentler.
+- **Unretrievable sources.** X posts and video may support some claims we could not check.
+
+### Future Work
+
+Next steps are full human validation of the released 90-claim set by several labellers, and testing whether showing raters quoted evidence changes which notes become Helpful. The audit could also be extended to Meta's and TikTok's crowd-notes systems and run monthly as a standing monitor.
 
 ## 6. Conclusion
 
-AI now writes most of the fact-checks that X shows its users. Judged against their own cited sources, these AI notes are better grounded than the human notes they sit alongside. But most notes from every writer contain at least one claim their sources do not establish, and the platform's human rating layer cannot tell supported notes from unsupported ones.
+AI now writes most of the fact-checks X shows its users. Judged against their own cited sources, these notes are better grounded than human notes. But most notes from every writer contain a claim their sources do not establish, and the platform's human rating layer cannot tell supported notes from unsupported ones. Evaluations that stop at "rated helpful" miss the property that matters most for a fact-check. Evidence binding is cheap to measure and should be measured routinely.
 
-Evaluations that stop at "rated helpful" therefore miss the property that matters most for a fact-check. Evidence binding is cheap to measure, and should be measured routinely.
+## Code and Data
+
+Code, verdicts, labels and all analysis outputs: https://github.com/rajkumar0932/Evidence-Audit-of-AI-Written-Community-Notes. Data: X's public Community Notes download of 12 Nov 2026. Every headline number is recomputed by `verify.py`.
 
 ## References
 
@@ -276,9 +219,9 @@ Evaluations that stop at "rated helpful" therefore miss the property that matter
 - Kangur, U., Chakraborty, R., Sharma, R. (2024). Who Checks the Checkers? Exploring Source Credibility in Twitter's Community Notes. arXiv:2406.12444.
 - Miller, B., Baxter, J., Chao, J., Coleman, K., Hilgard, S., Ortiz, D. (2026). Community-Driven API and AI Writer Design for Openly Scaling Community Notes. arXiv:2609.40067.
 - Min, S., Krishna, K., Lyu, X., Lewis, M., Yih, W., Koh, P. W., Iyyer, M., Zettlemoyer, L., Hajishirzi, H. (2023). FActScore: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation. EMNLP 2023.
-- Rashkin, H., et al. (2023). Measuring Attribution in Natural Language Generation Models. Computational Linguistics 49(4), 777–840.
+- Rashkin, H., et al. (2023). Measuring Attribution in Natural Language Generation Models. Computational Linguistics 49(4), 777–840. arXiv:2112.12870.
 - Solovev, K., Pröllochs, N. (2025). References to unbiased sources increase the helpfulness of community fact-checks. arXiv:2503.10560.
-- Wu, K., et al. (2025). An automated framework for assessing how well LLMs cite relevant medical references. Nature Communications 16, 3615.
+- Wu, K., et al. (2025). An automated framework for assessing how well LLMs cite relevant medical references. Nature Communications 16, 3615. doi:10.1038/s41467-025-58551-6.
 - xai-org/community-writer (2026). GitHub repository, Apache-2.0.
 
 ## Appendix A. Limitations and Dual-Use / Ethical Considerations
@@ -387,3 +330,63 @@ The pilot showed two recurring patterns:
 
 ![Figure 4](figures/fig_claim_types.png)
 *Figure 4. Claim types among each group's unsupported claims.*
+
+## Appendix F. Method details
+
+**Sample.** 110 notes per Helpful cell gives about 80% power to detect a 25% vs 10% difference at α = .05. In the window, 41 accounts were enrolled as AI writers, 28 of them active. Notes with no status row are 12.7% of every creation week, consistent with deleted notes rather than publication lag.
+
+**Retrieval.** Wikipedia revisions come from the MediaWiki API. Web pages come from Internet Archive snapshots found through the availability API and time-bounded CDX queries. Main text is extracted with trafilatura, keeping the full visible text as a fallback; PDF text uses pypdf. Archived payloads still compressed with zstd, gzip or brotli are decompressed first.
+
+Of 1,240 fetchable URLs, we retrieved text for 91% and time-pinned text for 77%:
+
+| Retrieval route | URLs |
+|---|---|
+| Archive snapshot before the note | 790 |
+| Wikipedia revision at writing time | 109 |
+| Archive snapshot after the note | 59 |
+| Archived copy cited by the note itself | 3 |
+| Live page, not time-pinned | 279 |
+
+**Claims.** Claims are typed as number/date, attribution/quote, causal, characterisation, event, or about-the-post (out of scope; 9.9% of the 3,545 claims).
+
+**Quote verification.** Quotes are matched after normalising Unicode, quote marks, dashes and whitespace. A quote of 8 or more words may differ in at most 10% of its six-word shingles.
+
+**Models and cost.**
+
+- **Primary model:** `claude-haiku-5-5`, run through Claude Code's headless mode (`claude -p`) with tools, MCP servers, skills and settings disabled, from an empty working directory.
+- **Effort:** medium for claim splitting, high for verdicts.
+- **Cost:** about $4.20 at API prices (claims $0.73, verdicts $3.50).
+- **Other judges:** the second judge is `gemini-3.5-flash-lite` on the free tier; the reference judge is `claude-opus-5-5`.
+
+**Pilot.** Three prompt rounds on 40 disjoint notes fixed two failure modes:
+
+1. A source that merely repeats the claim being corrected (for example, a parody post) was counted as contradicting the note.
+2. Qualifiers such as "not officially announced" were dropped, and one claim was mistranslated.
+
+The `CONTRADICTED` label fell from 6 to 2 of the pilot's verdicts, and every pilot quote was verified.
+
+**Statistics.**
+
+- **H2a** is the weighted average of within-group gaps (weights: each group's CRH + CRNH population), tested by permuting status within groups.
+- **H2b** is the status × group interaction in a logistic regression that controls for the number of URLs and the log of note length.
+- **Sensitivity analyses:**
+  - `PARTIAL` counted as unsupported;
+  - `UNVERIFIED` counted as unsupported;
+  - notes with all sources retrieved;
+  - time-pinned sources only;
+  - excluding notes that cite Wikipedia;
+  - leaving out each `cw` account in turn.
+
+## LLM Usage Statement
+
+This project was carried out with extensive assistance from Claude (Anthropic), used through Claude Code. Claude:
+
+- helped choose and scope the research question;
+- wrote the data-processing, retrieval, judging and analysis code, and ran the pipeline;
+- drafted this report.
+
+The author directed the work, chose among the options proposed, carried out the human spot-check, and reviewed the report.
+
+Language models are also part of the method itself (§3): Claude Haiku 5.5 is the primary judge, Claude Opus 5.5 the reference judge, and Gemini 3.5 Flash-Lite the second judge.
+
+All numbers in the report are produced by the released code from public data and can be recomputed with `verify.py`. References were checked against their sources.
