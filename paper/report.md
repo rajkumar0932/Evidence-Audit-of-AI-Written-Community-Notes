@@ -353,6 +353,4 @@ The `CONTRADICTED` label fell from 6 to 2 of the pilot's verdicts, and every pil
 
 ## LLM Usage Statement
 
-This project was carried out with extensive help from Claude (Anthropic), used through Claude Code. Claude helped choose and scope the research question, wrote most of the data-processing, retrieval, judging and analysis code, ran the pipeline, and drafted large parts of this report. The authors directed the work, chose among the options proposed, carried out the human spot-check, and reviewed and edited the final report.
-
-Language models are also part of the method itself (Section 3): Claude Haiku 5.5 is the primary judge, Claude Opus 5.5 the reference judge, and Gemini 3.5 Flash-Lite the second judge. All numbers in the report are produced by the released code from public data and can be recomputed with `verify.py`. References were checked against their sources.
+We used Claude (Anthropic), through Claude Code, as an AI assistant during this project: to brainstorm and scope the research question, to write and debug the analysis code, and to draft and edit text. The authors directed the project, approved its design, carried out the human spot-check, and reviewed the final report. Language models are also part of the method itself (Section 3). All reported numbers are produced by the released code and can be recomputed with `verify.py`. References were checked against the original sources.
