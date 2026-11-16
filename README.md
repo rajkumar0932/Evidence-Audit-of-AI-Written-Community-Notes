@@ -63,3 +63,7 @@ No credentials are stored in this repository; `.env` is git-ignored.
 ## Data
 
 The data comes from X's public Community Notes download. Participant IDs are pseudonymous. We release note IDs, claims, verdicts and code, but not the note text, which can be rebuilt from the public data.
+
+Author 
+Raj Kumar Gupta 
+Prakash Kumar
